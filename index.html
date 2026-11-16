@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>Novidades nos sistemas!</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%E2%9C%A8%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<style>
+:root { --bg: #F2F3F6; --fg: #16171C; --graphite: #23262F; color-scheme: light; box-sizing: border-box; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.45 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid rgba(255, 255, 255, .9); outline-offset: 2px; border-radius: 8px; }
+.palco { min-height: 100dvh; display: grid; place-items: center; padding: 24px; }
+.historia { position: relative; width: min(1140px, 100%); height: min(560px, calc(100dvh - 48px)); border-radius: 24px; overflow: hidden; background: var(--graphite); color: #fff; isolation: isolate; box-shadow: 0 30px 80px rgba(20, 22, 40, .28); user-select: none; -webkit-user-select: none; }
+.msg { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; padding: 24px; text-align: center; z-index: 6; }
+.msg[hidden] { display: none; }
+
+/* ---------- barras de progresso e topo (jeito de stories) ---------- */
+.barras { position: absolute; top: 0; left: 0; right: 0; z-index: 6; display: flex; gap: 6px; padding: calc(14px + env(safe-area-inset-top, 0px)) 24px 0; }
+.seg { flex: 1; height: 4px; border-radius: 4px; background: rgba(255, 255, 255, .32); position: relative; overflow: hidden; }
+.seg.feito::after, .seg.atual::after { content: ""; position: absolute; inset: 0; background: #fff; transform-origin: left; }
+.seg.atual::after { animation: enche var(--dur, 8s) linear forwards; }
+.historia.parado .seg.atual::after, .historia.sem-auto .seg.atual::after { animation: none; transform: scaleX(.12); }
+@keyframes enche { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.topo { position: absolute; top: calc(30px + env(safe-area-inset-top, 0px)); left: 0; right: 0; z-index: 6; display: flex; align-items: center; gap: 14px; padding: 0 24px; pointer-events: none; }
+.marca { font: 700 17px/1 "Space Grotesk", system-ui, sans-serif; letter-spacing: -.01em; white-space: nowrap; }
+.marca span { font-weight: 700; opacity: .72; }
+.topo .sep { width: 1px; height: 22px; background: rgba(255, 255, 255, .45); }
+.topo .quem { display: grid; gap: 1px; min-width: 0; }
+.topo .quem b { font: 600 13.5px/1.2 "IBM Plex Sans", sans-serif; }
+.topo .quem span { font-size: 12.5px; opacity: .88; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pausa { margin-left: auto; pointer-events: auto; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .5); background: rgba(0, 0, 0, .2); display: grid; place-items: center; }
+.pausa svg { width: 16px; height: 16px; }
+
+/* ---------- slides (mesmos tamanhos do carrossel da V2) ---------- */
+.slides { position: absolute; inset: 0; touch-action: none; }
+.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; align-items: center; padding: 100px 84px 52px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; background: linear-gradient(135deg, var(--a, #2A2D38), var(--a2, #08090C)); overflow: hidden; }
+.slide.on { opacity: 1; visibility: visible; z-index: 1; }
+.padrao { position: absolute; inset: 0; opacity: .14; pointer-events: none; }
+.padrao svg { width: 100%; height: 100%; display: block; }
+.conteudo { position: relative; z-index: 2; }
+.pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.pil { background: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .32); border-radius: 99px; padding: 4px 12px; font: 600 12.5px/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .02em; }
+.pil.claro { background: #fff; color: #111; border-color: #fff; }
+.pil.sis { background: rgba(0, 0, 0, .3); border-color: rgba(255, 255, 255, .5); font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.slide h1, .slide h2 { margin: 0 0 14px; font: 700 clamp(26px, 3.6vw, 42px)/1.08 "Space Grotesk", system-ui, sans-serif; letter-spacing: -.015em; max-width: 24ch; text-wrap: balance; }
+.slide p { text-wrap: balance; margin: 0 0 22px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.45; max-width: 46ch; opacity: .94; }
+.slide p strong { font-weight: 600; }
+.btn-claro { background: #fff; color: #14151A; border: 0; border-radius: 99px; padding: 10px 18px; font-weight: 600; font-size: 14.5px; position: relative; z-index: 3; }
+.btn-claro:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0, 0, 0, .28); }
+.arte { position: relative; z-index: 2; display: grid; place-items: center; pointer-events: none; }
+.arte svg { width: min(100%, 320px); height: auto; overflow: visible; }
+.grande { font: 700 clamp(96px, 13.5vw, 170px)/.85 "Space Grotesk", sans-serif; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 3px rgba(255, 255, 255, .85); text-align: center; white-space: nowrap; }
+.cap { text-align: center; margin-top: 26px; font: 600 clamp(13px, 1.5vw, 17px)/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: rgba(255, 255, 255, .85); }
+.nums { display: flex; gap: 18px; flex-wrap: wrap; margin: 0 0 22px; }
+.nums div { min-width: 86px; }
+.nums b { display: block; font: 700 38px/1 "Space Grotesk", sans-serif; }
+.nums span { font-size: 13px; opacity: .85; }
+@keyframes flutua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes gira { to { transform: rotate(360deg); } }
+.arte .f1 { animation: flutua 5.5s ease-in-out infinite; }
+.arte .f2 { animation: flutua 7s ease-in-out infinite reverse; }
+.arte .rot { transform-origin: 160px 160px; animation: gira 60s linear infinite; }
+
+/* ---------- setas (computador) ---------- */
+.seta { position: absolute; top: 50%; z-index: 7; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .55); background: rgba(0, 0, 0, .24); backdrop-filter: blur(4px); display: grid; place-items: center; }
+.seta svg { width: 20px; height: 20px; }
+.seta:hover { background: rgba(255, 255, 255, .24); }
+.seta.ant { left: 14px; }
+.seta.prox { right: 14px; }
+
+/* ---------- detalhes (folha) ---------- */
+.fundo { position: fixed; inset: 0; background: rgba(10, 12, 20, .55); z-index: 40; }
+.fundo[hidden], .folha[hidden], .previa[hidden] { display: none; }
+.folha { position: fixed; z-index: 41; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(540px, calc(100% - 32px)); max-height: calc(100dvh - 48px); overflow: auto; background: #fff; color: var(--fg); border-radius: 22px; padding: 30px 26px 26px; box-shadow: 0 30px 80px rgba(0, 0, 0, .4); }
+.folha-faixa { position: absolute; left: 0; right: 0; top: 0; height: 8px; background: var(--a, #23262F); }
+.fechar { position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid #D9DBE2; background: #fff; display: grid; place-items: center; }
+.fechar svg { width: 16px; height: 16px; }
+.folha :focus-visible { outline: 3px solid var(--a, #23262F); }
+.folha .pil { background: #ECEDF1; border-color: #ECEDF1; color: #16171C; }
+.folha .pil.claro { background: var(--a, #23262F); border-color: var(--a, #23262F); color: #fff; }
+.folha .pil.sis { background: #fff; border: 2px solid #16171C; color: #16171C; }
+.folha h3 { margin: 4px 36px 10px 0; font: 700 25px/1.15 "Space Grotesk", sans-serif; letter-spacing: -.01em; }
+.folha-detalhe { margin: 0 0 18px; color: #3A3D46; font-size: 16.5px; line-height: 1.55; }
+.dados { margin: 0; display: grid; gap: 8px; border-top: 1px solid #E2E3E8; padding-top: 14px; }
+.dados div { display: flex; gap: 12px; }
+.dados dt { width: 74px; flex: none; color: #5C5F68; font-size: 13.5px; }
+.dados dd { margin: 0; font-weight: 600; font-size: 14.5px; }
+.previa { position: fixed; z-index: 30; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); display: flex; gap: 6px; align-items: center; background: #fff; border: 1px solid #D9DBE2; border-radius: 99px; padding: 5px 6px 5px 12px; font-size: 12.5px; box-shadow: 0 6px 20px rgba(0, 0, 0, .12); }
+.previa button { border: 1px solid #D9DBE2; background: #fff; border-radius: 99px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; }
+.previa button[aria-pressed="true"] { background: #16171C; color: #fff; border-color: #16171C; }
+.toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 14px; z-index: 60; opacity: 0; pointer-events: none; transition: opacity .25s; }
+.toast.on { opacity: 1; }
+
+/* ---------- celular: a história ocupa a tela toda ---------- */
+@media (max-width: 899px) {
+  .palco { display: block; padding: 0; }
+  .historia { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
+  .slide { grid-template-columns: 1fr; grid-template-rows: 1fr auto; align-content: stretch; gap: 0; padding: calc(84px + env(safe-area-inset-top, 0px)) 22px calc(28px + env(safe-area-inset-bottom, 0px)); }
+  .slide .arte { order: -1; align-self: center; padding-bottom: 10px; }
+  .slide .arte svg { width: min(52vw, 200px); }
+  .slide .conteudo { align-self: end; }
+  .grande { font-size: clamp(88px, 27vw, 112px); }
+  .cap { margin-top: 18px; }
+  .com-previa .slide { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  .previa { top: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); }
+  .seta { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  .barras, .topo { padding-left: 18px; padding-right: 18px; }
+  .folha { top: auto; bottom: 0; left: 0; transform: none; width: 100%; max-height: 82dvh; border-radius: 22px 22px 0 0; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); animation: sobe .25s ease-out; }
+}
+@keyframes sobe { from { transform: translateY(40px); opacity: .4; } to { transform: none; opacity: 1; } }
+@media (min-width: 900px) and (max-height: 640px) { .slide { padding-top: 96px; padding-bottom: 40px; } }
+@media (prefers-reduced-motion: reduce) { .arte .f1, .arte .f2, .arte .rot { animation: none; } .slide { transition: none; } .folha { animation: none; } }
+
+.previa button { white-space: nowrap; }
+.previa { white-space: nowrap; }
+
+</style>
+</head>
+<body>
+<main class="palco">
+  <section class="historia" id="historia" role="region" aria-roledescription="carrossel" aria-label="Novidades nos sistemas">
+    <div class="barras" id="barras" aria-hidden="true"></div>
+    <header class="topo" id="topo"></header>
+    <div class="slides" id="slides"></div>
+    <button class="seta ant" id="ant" type="button" aria-label="Novidade anterior"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="seta prox" id="prox" type="button" aria-label="Próxima novidade"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+    <p class="msg" id="msg">Carregando as novidades…</p>
+  </section>
+</main>
+<div class="fundo" id="fundo" hidden></div>
+<section class="folha" id="folha" role="dialog" aria-modal="true" aria-labelledby="folhaTitulo" hidden>
+  <div class="folha-faixa"></div>
+  <button class="fechar" id="fechar" type="button" aria-label="Fechar detalhes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="pilulas" id="folhaPilulas"></div>
+  <h3 id="folhaTitulo"></h3>
+  <p class="folha-detalhe" id="folhaDetalhe"></p>
+  <dl class="dados" id="folhaDados"></dl>
+</section>
+<nav class="previa" id="previa" hidden aria-label="Escolher edição de exemplo"></nav>
+<div class="toast" id="toast" role="status"></div>
+<script>
+window.__DATA = {"fonte": "arquivo"};
+</script>
+<script>
+(function () {
+  "use strict";
+
+  // cor, cor escura e ícone de cada área (squad)
+  var AREAS = {
+    "sinistro": ["#B3261E", "#6A100B", "carro"],
+    "comercial": ["#1F6FEB", "#0B3C99", "maleta"],
+    "financeiro": ["#0B7A5F", "#064A39", "moedas"],
+    "tato": ["#7A3FD0", "#3F1A82", "pino"],
+    "contratacao e cadastro": ["#B45309", "#6B2F04", "documento"],
+    "sustentacao": ["#475569", "#1E2633", "engrenagem"],
+    "operacoes e servicos de ti": ["#0E7490", "#073F50", "fone"],
+    "arquitetura": ["#BE185D", "#6B0B33", "nuvem"],
+    "app": ["#4F46E5", "#25207F", "celular"],
+    "produto": ["#A21CAF", "#5B0F63", "estrela"]
+  };
+  var PADRAO = ["#374151", "#111827", "brilho"];
+  var ICONES = {
+    carro: '<path d="M10 40l4-12c1.2-3.4 3-4.6 6.6-4.6h22.8c3.6 0 5.4 1.2 6.6 4.6l4 12"/><rect x="8" y="40" width="48" height="10" rx="4"/><circle cx="19" cy="52" r="4.5" fill="#fff"/><circle cx="45" cy="52" r="4.5" fill="#fff"/><path d="M16 32h32"/>',
+    maleta: '<rect x="9" y="22" width="46" height="30" rx="5"/><path d="M24 22v-4a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v4"/><path d="M9 36h46"/><rect x="28" y="33" width="8" height="7" rx="1.5" fill="#fff"/>',
+    moedas: '<ellipse cx="32" cy="16" rx="17" ry="6.5"/><path d="M15 16v11c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5V16"/><path d="M15 27v11c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5V27"/><path d="M15 38v8c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5v-8"/>',
+    pino: '<path d="M32 56S15 42 15 28a17 17 0 0 1 34 0c0 14-17 28-17 28z"/><circle cx="32" cy="28" r="6.5" fill="#fff"/>',
+    documento: '<path d="M18 8h20l10 10v38a3 3 0 0 1-3 3H18a3 3 0 0 1-3-3V11a3 3 0 0 1 3-3z"/><path d="M38 8v10h10"/><path d="M22 30h20M22 38h20M22 46h12"/>',
+    engrenagem: '<circle cx="32" cy="32" r="9"/><circle cx="32" cy="32" r="19" stroke-width="8" stroke-dasharray="7.46 7.46"/><circle cx="32" cy="32" r="15"/>',
+    fone: '<path d="M13 38v-6a19 19 0 0 1 38 0v6"/><rect x="9" y="36" width="9" height="15" rx="4" fill="#fff"/><rect x="46" y="36" width="9" height="15" rx="4" fill="#fff"/><path d="M50 51c0 6-7 8-15 8"/>',
+    nuvem: '<path d="M19 47a11 11 0 0 1-1.2-21.9A15 15 0 0 1 47 22.5 11.5 11.5 0 0 1 46 47z"/>',
+    celular: '<rect x="19" y="7" width="26" height="50" rx="6"/><path d="M28 13h8"/><circle cx="32" cy="51" r="2" fill="#fff"/>',
+    estrela: '<path d="M32 8l6.8 14.2 15.6 2-11.4 10.8 2.9 15.5L32 43l-13.9 7.5 2.9-15.5L9.6 24.2l15.6-2z"/>',
+    brilho: '<path d="M32 10v12M32 42v12M10 32h12M42 32h12M17 17l8 8M39 39l8 8M47 17l-8 8M25 39l-8 8"/>'
+  };
+
+  /* ================= padrão de fundo de cada squad ================= */
+  var PADROES = {
+    "sinistro": ['24', '24', '<path d="M-6 6L6 -6M0 24L24 0M18 30L30 18" stroke="#fff" stroke-width="2.4" fill="none"/>'],
+    "comercial": ['22', '22', '<circle cx="11" cy="11" r="2.8" fill="#fff"/>'],
+    "financeiro": ['44', '44', '<circle cx="22" cy="22" r="13" fill="none" stroke="#fff" stroke-width="2.2"/>'],
+    "tato": ['44', '44', '<path d="M0 44A44 44 0 0 1 44 0M0 44A28 28 0 0 1 28 16M0 44A12 12 0 0 1 12 32" fill="none" stroke="#fff" stroke-width="2.2"/>'],
+    "contratacao e cadastro": ['34', '34', '<path d="M0 0H34V34" fill="none" stroke="#fff" stroke-width="1.8"/>'],
+    "sustentacao": ['34', '34', '<path d="M17 9V25M9 17H25" stroke="#fff" stroke-width="2.4" fill="none"/>'],
+    "operacoes e servicos de ti": ['44', '26', '<path d="M0 13Q11 0 22 13T44 13" fill="none" stroke="#fff" stroke-width="2.2"/>'],
+    "arquitetura": ['34', '34', '<rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/><rect x="19" y="19" width="13" height="13" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/>'],
+    "app": ['26', '30', '<rect x="5" y="3" width="13" height="22" rx="3.5" fill="none" stroke="#fff" stroke-width="2.2"/>'],
+    "produto": ['34', '34', '<path d="M17 4l3.2 7.4 8 .9-6 5.4 1.7 7.9L17 21.6 10.1 25.6l1.7-7.9-6-5.4 8-.9z" fill="none" stroke="#fff" stroke-width="1.8"/>']
+  };
+  var PADRAO_GENERICO = ['30', '30', '<path d="M15 4l11 20H4z" fill="none" stroke="#fff" stroke-width="2"/>'];
+
+  var NOME = "Novidades nos sistemas!";
+  var AUTO_MS = 8000;
+  var MAX_ITENS = 8;
+  var TZ = "America/Sao_Paulo";
+  var state = { eds: [], ed: null, idx: 0, slides: [], segs: [], timer: null, pausado: false, segurando: false, aberta: false, abridor: null, ultimoTxt: "", pausaBt: null };
+
+  /* ================= utilidades ================= */
+  var $ = function (s) { return document.querySelector(s); };
+  function el(tag, props) {
+    var e = document.createElement(tag);
+    Object.keys(props || {}).forEach(function (k) {
+      var v = props[k];
+      if (v === false || v === null || v === undefined) return;
+      if (k === "class") e.className = v; else if (k === "text") e.textContent = v; else e.setAttribute(k, v === true ? "" : v);
+    });
+    for (var i = 2; i < arguments.length; i++) [].concat(arguments[i]).forEach(function (c) { if (c != null) e.append(c.nodeType ? c : document.createTextNode(String(c))); });
+    return e;
+  }
+  function semAcento(s) { return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim(); }
+  function semAuto() { try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } }
+  function qtd(n, um, varios) { return n + " " + (n === 1 ? um : varios); }
+  function cor(squad) { return AREAS[semAcento(squad)] || PADRAO; }
+  function aplicarCor(no, a) { no.style.setProperty("--a", a[0]); no.style.setProperty("--a2", a[1]); }
+  function marcado(no, txt) {
+    no.textContent = "";
+    String(txt || "").split("**").forEach(function (p, i) { if (p) no.append(i % 2 ? el("strong", { text: p }) : document.createTextNode(p)); });
+  }
+  function partes(iso) {
+    var d = new Date(iso), o = {};
+    if (isNaN(d)) return null;
+    new Intl.DateTimeFormat("pt-BR", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", weekday: "long", hourCycle: "h23" })
+      .formatToParts(d).forEach(function (p) { o[p.type] = p.value; });
+    o.dia = String(o.weekday || "").split("-")[0];
+    return o;
+  }
+  function diaTxt(iso) { var p = partes(iso); return p ? p.dia + ", " + p.day + "/" + p.month : ""; }
+  function horaTxt(iso) { var p = partes(iso); return p ? p.hour + ":" + p.minute : ""; }
+  function diaHoraTxt(iso) { var p = partes(iso); return !p ? "" : (p.hour === "00" && p.minute === "00") ? diaTxt(iso) : diaTxt(iso) + " às " + p.hour + ":" + p.minute; }
+  function chaveDia(iso) { var p = partes(iso); return p ? p.year + "-" + p.month + "-" + p.day : ""; }
+  function janelaPrincipal(itens) {
+    var c = {};
+    itens.forEach(function (i) { var k = chaveDia(i.janela); if (k) { c[k] = c[k] || { n: 0, iso: i.janela }; c[k].n++; if (i.janela > c[k].iso) c[k].iso = i.janela; } });
+    var ks = Object.keys(c).sort(function (a, b) { return (c[b].n - c[a].n) || (a < b ? 1 : -1); });
+    return ks.length ? { chave: ks[0], iso: c[ks[0]].iso } : null;
+  }
+  function toast(m) { var t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove("on"); }, 3200); }
+
+  /* ================= arte de cada squad ================= */
+  function icone(chave) { return ICONES[chave] || ICONES.brilho; }
+  function arteSvg(chave) {
+    var d = document.createElement("div");
+    d.innerHTML = '<svg viewBox="0 0 320 320" aria-hidden="true"><circle class="rot" cx="160" cy="160" r="150" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2" stroke-dasharray="3 12"/>' +
+      '<circle cx="238" cy="84" r="86" fill="#fff" fill-opacity=".1"/><circle cx="82" cy="250" r="56" fill="#fff" fill-opacity=".08"/>' +
+      '<g class="f2"><circle cx="270" cy="236" r="14" fill="#fff" fill-opacity=".35"/><circle cx="46" cy="96" r="8" fill="#fff" fill-opacity=".4"/></g>' +
+      '<g class="f1"><rect x="78" y="78" width="164" height="164" rx="40" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>' +
+      '<g transform="translate(96 96) scale(2)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' + icone(chave) + "</g></g></svg>";
+    return d.firstChild;
+  }
+  var contaPadrao = 0;
+  function padraoEl(squad) {
+    var p = PADROES[semAcento(squad)] || PADRAO_GENERICO, id = "pd" + (contaPadrao++);
+    var d = el("div", { class: "padrao", "aria-hidden": "true" });
+    d.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="' + id + '" width="' + p[0] + '" height="' + p[1] + '" patternUnits="userSpaceOnUse">' + p[2] + '</pattern></defs><rect width="100%" height="100%" fill="url(#' + id + ')"/></svg>';
+    return d;
+  }
+
+  /* ================= slides ================= */
+  function slideAbertura(ed) {
+    var jp = janelaPrincipal(ed.itens);
+    var s = el("article", { class: "slide", role: "group", "aria-roledescription": "slide", "aria-label": "Abertura" });
+    aplicarCor(s, ["#2A2D38", "#08090C"]);
+    var nums = el("div", { class: "nums" });
+    [["Novo", "novos"], ["Melhoria", "melhorias"], ["Correção", "correções"]].forEach(function (p) { nums.append(el("div", {}, el("b", { text: String((ed.contagem || {})[p[0]] || 0) }), el("span", { text: p[1] }))); });
+    var btn = el("button", { class: "btn-claro", type: "button", text: ed.itens.length ? "Ver as novidades" : "Tudo certo por aqui" });
+    btn.addEventListener("click", function (ev) { ev.stopPropagation(); ir(1); });
+    var total = ed.itens.length;
+    var texto = total ? qtd(total, "novidade", "novidades") + " nesta janela." : "Nenhuma novidade nesta janela.";
+    if (ed.proxima) texto += " Próxima atualização: " + diaHoraTxt(ed.proxima) + ".";
+    var grande = jp ? partes(jp.iso).day + "/" + partes(jp.iso).month : "";
+    s.append(el("div", { class: "conteudo" },
+        el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null, ed.publicadoEm ? el("span", { class: "pil", text: "Atualizado " + diaHoraTxt(ed.publicadoEm) }) : null),
+        el("h1", { text: NOME }), el("p", { text: texto }), nums, btn),
+      el("div", { class: "arte" }, el("div", { class: "grande", "aria-hidden": "true", text: grande }), jp ? el("div", { class: "cap", text: "janela de " + partes(jp.iso).dia }) : null));
+    return s;
+  }
+  function slideItem(it, i, total) {
+    var c = cor(it.squad);
+    var s = el("article", { class: "slide", role: "group", "aria-roledescription": "slide", "aria-label": "Novidade " + i + " de " + total });
+    aplicarCor(s, c);
+    var p = el("p");
+    marcado(p, it.chamada);
+    var btn = el("button", { class: "btn-claro", type: "button", text: "Ver detalhes" });
+    btn.addEventListener("click", function (ev) { ev.stopPropagation(); abrirDetalhes(it, btn); });
+    s.append(padraoEl(it.squad),
+      el("div", { class: "conteudo" },
+        el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: it.squad }), el("span", { class: "pil", text: it.tipo }), el("span", { class: "pil sis", text: it.sistema })),
+        el("h2", { text: it.titulo }), p, btn),
+      el("div", { class: "arte" }, arteSvg(c[2])));
+    s._item = it;
+    return s;
+  }
+
+  /* ================= história ================= */
+  function montar(ed) {
+    clearTimeout(state.timer);
+    state.ed = ed;
+    var itens = (ed.itens || []).slice(0, MAX_ITENS);
+    ed = Object.assign({}, ed, { itens: itens });
+    state.slides = [slideAbertura(ed)];
+    itens.forEach(function (it, i) { state.slides.push(slideItem(it, i + 1, itens.length)); });
+    var box = $("#slides"); box.textContent = "";
+    state.slides.forEach(function (s) { box.append(s); });
+    var barras = $("#barras"); barras.textContent = "";
+    state.segs = state.slides.map(function () { var g = el("span", { class: "seg" }); barras.append(g); return g; });
+    var jp = janelaPrincipal(itens);
+    var topo = $("#topo"); topo.textContent = "";
+    var pausa = el("button", { class: "pausa", type: "button", "aria-label": "Pausar a rotação" });
+    pausa.innerHTML = ICO_PAUSA;
+    pausa.addEventListener("click", function (ev) { ev.stopPropagation(); alternarPausa(); });
+    state.pausaBt = pausa;
+    topo.append(el("div", { class: "marca" }, "Prime", el("span", { text: "Tech" })), el("span", { class: "sep" }),
+      el("div", { class: "quem" }, el("b", { text: NOME }), el("span", { text: jp ? "Janela de " + diaTxt(jp.iso) : "" })), pausa);
+    $("#historia").classList.toggle("sem-auto", semAuto());
+    $("#msg").hidden = true;
+    state.idx = 0;
+    mostrar();
+  }
+  var ICO_PAUSA = '<svg viewBox="0 0 24 24" fill="#fff"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+  var ICO_PLAY = '<svg viewBox="0 0 24 24" fill="#fff"><path d="M8 5l11 7-11 7z"/></svg>';
+  function mostrar() {
+    state.slides.forEach(function (s, i) {
+      var on = i === state.idx;
+      s.classList.toggle("on", on);
+      s.setAttribute("aria-hidden", on ? "false" : "true");
+      s.querySelectorAll("button").forEach(function (b) { b.tabIndex = on ? 0 : -1; });
+    });
+    state.segs.forEach(function (g, i) {
+      g.classList.remove("feito", "atual");
+      if (i < state.idx) g.classList.add("feito");
+      if (i === state.idx) { void g.offsetWidth; g.style.setProperty("--dur", AUTO_MS + "ms"); g.classList.add("atual"); }
+    });
+    agendar();
+  }
+  function ir(i) {
+    var n = state.slides.length;
+    if (!n) return;
+    state.idx = (i + n) % n;
+    mostrar();
+  }
+  function agendar() {
+    clearTimeout(state.timer);
+    if (state.pausado || state.segurando || state.aberta || semAuto() || document.hidden) return;
+    state.timer = setTimeout(function () { ir(state.idx + 1); }, AUTO_MS);
+  }
+  function alternarPausa() {
+    state.pausado = !state.pausado;
+    state.pausaBt.innerHTML = state.pausado ? ICO_PLAY : ICO_PAUSA;
+    state.pausaBt.setAttribute("aria-label", state.pausado ? "Retomar a rotação" : "Pausar a rotação");
+    $("#historia").classList.toggle("parado", state.pausado || state.aberta);
+    state.pausado ? clearTimeout(state.timer) : mostrar();
+  }
+
+  /* ================= detalhes ================= */
+  function abrirDetalhes(it, abridor) {
+    var c = cor(it.squad), f = $("#folha");
+    f.style.setProperty("--a", c[0]);
+    var pil = $("#folhaPilulas"); pil.textContent = "";
+    pil.append(el("span", { class: "pil claro", text: it.squad }), el("span", { class: "pil", text: it.tipo }), el("span", { class: "pil sis", text: it.sistema }));
+    $("#folhaTitulo").textContent = it.titulo;
+    $("#folhaDetalhe").textContent = it.detalhe || "";
+    var dl = $("#folhaDados"); dl.textContent = "";
+    [["Área", it.squad], ["Sistema", it.sistema], ["Janela", diaHoraTxt(it.janela)]].forEach(function (p) { if (p[1]) dl.append(el("div", {}, el("dt", { text: p[0] }), el("dd", { text: p[1] }))); });
+    state.aberta = true; state.abertaEm = Date.now(); state.abridor = abridor || null;
+    clearTimeout(state.timer);
+    $("#historia").classList.add("parado");
+    $("#fundo").hidden = false; f.hidden = false;
+    $("#fechar").focus();
+  }
+  function fecharDetalhes() {
+    if (!state.aberta) return;
+    state.aberta = false;
+    $("#fundo").hidden = true; $("#folha").hidden = true;
+    $("#historia").classList.toggle("parado", state.pausado);
+    if (state.abridor && state.abridor.focus) state.abridor.focus();
+    agendar();
+  }
+
+  /* ================= toque, mouse e teclado ================= */
+  function ligar() {
+    var area = $("#slides"), x0 = 0, y0 = 0, seguro = false, t = null, ativo = false;
+    area.addEventListener("pointerdown", function (ev) {
+      if (ev.target.closest("button")) return;
+      ativo = true; x0 = ev.clientX; y0 = ev.clientY; seguro = false;
+      clearTimeout(t);
+      t = setTimeout(function () { seguro = true; state.segurando = true; clearTimeout(state.timer); $("#historia").classList.add("parado"); }, 300);
+    });
+    function soltar(ev, cancelou) {
+      if (!ativo) return;
+      ativo = false; clearTimeout(t);
+      var dx = ev.clientX - x0, dy = ev.clientY - y0;
+      var estavaSegurando = seguro; seguro = false;
+      if (state.segurando) { state.segurando = false; $("#historia").classList.toggle("parado", state.pausado || state.aberta); agendar(); }
+      if (cancelou || estavaSegurando) return;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { ir(state.idx + (dx < 0 ? 1 : -1)); return; }
+      if (Math.abs(dx) > 12 || Math.abs(dy) > 12) return;
+      if (window.innerWidth < 900) {                       // celular: toque na borda esquerda volta, no resto avança
+        var r = area.getBoundingClientRect();
+        ir(state.idx + ((ev.clientX - r.left) / r.width < 0.35 ? -1 : 1));
+      }                                                    // computador: clicar no slide não faz nada (setas e botões)
+    }
+    area.addEventListener("pointerup", function (ev) { soltar(ev, false); });
+    area.addEventListener("pointercancel", function (ev) { soltar(ev, true); });
+    area.addEventListener("pointerleave", function (ev) { if (ativo && ev.pointerType === "mouse") soltar(ev, true); });
+    var hist = $("#historia");
+    hist.addEventListener("mouseenter", function (ev) { if (window.innerWidth >= 900 && !state.aberta) { state.segurando = true; clearTimeout(state.timer); hist.classList.add("parado"); } });
+    hist.addEventListener("mouseleave", function () { if (state.segurando && !ativo) { state.segurando = false; hist.classList.toggle("parado", state.pausado || state.aberta); agendar(); } });
+    $("#ant").addEventListener("click", function () { ir(state.idx - 1); });
+    $("#prox").addEventListener("click", function () { ir(state.idx + 1); });
+    $("#fechar").addEventListener("click", fecharDetalhes);
+    $("#fundo").addEventListener("click", function () { if (Date.now() - (state.abertaEm || 0) < 350) return; fecharDetalhes(); });   // ignora o clique fantasma do toque que acabou de abrir
+    document.addEventListener("keydown", function (ev) {
+      if (ev.key === "Escape") { fecharDetalhes(); return; }
+      if (state.aberta) { if (ev.key === "Tab") { var f = [].slice.call($("#folha").querySelectorAll("button")); if (f.length === 1) { ev.preventDefault(); f[0].focus(); } } return; }
+      if (ev.key === "ArrowRight") { ir(state.idx + 1); ev.preventDefault(); }
+      else if (ev.key === "ArrowLeft") { ir(state.idx - 1); ev.preventDefault(); }
+      else if (ev.key === " " && !ev.target.closest("button")) { alternarPausa(); ev.preventDefault(); }
+    });
+    document.addEventListener("visibilitychange", function () { if (document.hidden) clearTimeout(state.timer); else agendar(); });
+  }
+
+  /* ================= dados ================= */
+  function receber(ed) {
+    var txt = JSON.stringify(ed);
+    if (txt === state.ultimoTxt) return;
+    var novaEdicao = !state.ed || state.ed.id !== ed.id;
+    state.ultimoTxt = txt;
+    var idxAntes = state.idx;
+    montar(ed);
+    if (!novaEdicao) { state.idx = Math.min(idxAntes, state.slides.length - 1); mostrar(); }
+    else if (state.eds.length) toast("Chegou uma edição nova.");
+    state.eds[0] = ed;
+  }
+  function buscar() {
+    var t = "?v=" + Date.now();
+    Promise.all([
+      fetch("atual.json" + t, { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error("atual"); return r.json(); }),
+      fetch("retirados.json" + t, { cache: "no-store" }).then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
+    ]).then(function (res) {
+      var ed = (res[0] || {}).edicao, fora = (res[1] || {}).itens || [];
+      if (!ed) throw new Error("vazio");
+      ed = Object.assign({}, ed, { itens: (ed.itens || []).filter(function (i) { return fora.indexOf(i.id) < 0; }) });
+      var cont = Object.assign({}, ed.contagem || {});
+      cont.Novo = ed.itens.filter(function (i) { return i.tipo === "Novo"; }).length;
+      cont.Melhoria = ed.itens.filter(function (i) { return i.tipo === "Melhoria"; }).length;
+      ed.contagem = cont;
+      receber(ed);
+    }).catch(function () { if (!state.ed) { var m = $("#msg"); m.hidden = false; m.textContent = "Não consegui carregar as novidades agora. Tente de novo em instantes."; } });
+  }
+  function iniciar() {
+    ligar();
+    var fonte = window.__DATA && window.__DATA.fonte;
+    if (fonte === "embutido") {
+      var eds = window.__DATA.edicoes || [];
+      var barra = $("#previa");
+      if (eds.length > 1) {
+        barra.hidden = false;
+        document.body.classList.add("com-previa");
+        barra.append("Prévia:");
+        eds.forEach(function (e, i) {
+          var b = el("button", { type: "button", "aria-pressed": String(i === 0), text: e.previa || e.id });
+          b.addEventListener("click", function () { [].forEach.call(barra.querySelectorAll("button"), function (x) { x.setAttribute("aria-pressed", "false"); }); b.setAttribute("aria-pressed", "true"); state.ultimoTxt = ""; state.ed = null; montar(e); });
+          barra.append(b);
+        });
+      }
+      state.eds = eds;
+      if (eds.length) montar(eds[0]);
+      return;
+    }
+    buscar();
+    setInterval(buscar, 10 * 60 * 1000);
+  }
+  document.addEventListener("DOMContentLoaded", iniciar);
+})();
+
+</script>
+</body>
+</html>
