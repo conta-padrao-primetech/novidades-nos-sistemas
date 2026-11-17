@@ -41,20 +41,20 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- slides: grade de terços (3 faixas iguais) ---------- */
 .slides { position: absolute; inset: 0; touch-action: none; }
-.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: "ctx arte" "titulo arte" "resumo arte"; column-gap: 20px; padding: 0 84px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; background: linear-gradient(135deg, var(--a, #2A2D38), var(--a2, #08090C)); overflow: hidden; }
-.slide.final { grid-template-areas: "bloco arte" "lista arte" "lista arte"; }
+.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: ". arte" "bloco arte" "resumo arte"; column-gap: 20px; padding: 0 84px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; background: linear-gradient(135deg, var(--a, #2A2D38), var(--a2, #08090C)); overflow: hidden; }
 .slide.on { opacity: 1; visibility: visible; z-index: 1; }
-.bloco { display: contents; }
-.slide.final .bloco { display: block; grid-area: bloco; align-self: end; position: relative; z-index: 2; padding-bottom: 14px; }
-.ctx { grid-area: ctx; align-self: end; position: relative; z-index: 2; padding-bottom: 16px; }
-.slide.final .ctx { padding-bottom: 14px; }
-.titulo { grid-area: titulo; align-self: center; position: relative; z-index: 2; padding-bottom: 30px; }
-.slide.final .titulo { padding-bottom: 0; }
+.bloco { grid-area: bloco; align-self: end; position: relative; z-index: 2; padding-bottom: 44px; }   /* tags + título juntos, logo acima do botão */
+.ctx { padding-bottom: 14px; }
 .resumo { grid-area: resumo; align-self: start; position: relative; z-index: 2; padding-top: 40px; }
-.abertura .resumo { padding-top: 16px; }
 .acao { grid-area: resumo; align-self: start; justify-self: start; position: relative; z-index: 3; transform: translateY(-50%); }   /* o centro do botão fica em cima da linha de 2/3 */
 .acao:empty { display: none; }
-.arte, .hero { grid-area: arte; align-self: center; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; min-height: 0; }
+.arte, .hero { align-self: center; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; min-height: 0; }
+.arte { grid-area: arte; }
+.hero { grid-area: hero; }
+/* abertura: tudo num grupo só, centralizado, com espaços regulares */
+.abertura { grid-template-rows: auto auto; grid-template-areas: "bloco hero" "resumo hero"; align-content: center; row-gap: 30px; }
+.abertura .bloco { padding-bottom: 0; }
+.abertura .resumo { padding-top: 0; }
 .arte svg { width: min(100%, 320px); height: auto; overflow: visible; }
 .pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .pil { background: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .32); border-radius: 99px; padding: 4px 12px; font: 600 12.5px/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .02em; }
@@ -74,10 +74,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .nums div div { min-width: 70px; }
 .nums b { display: block; font: 700 38px/1 "Space Grotesk", sans-serif; }
 .nums span { font-size: 13px; opacity: .85; }
-.lista { grid-area: lista; align-self: start; position: relative; z-index: 2; list-style: none; margin: 0; padding: 6px 0 0; max-width: 60ch; }
-.lista li { position: relative; padding: 9px 0 9px 16px; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: 16.5px; line-height: 1.35; }
-.lista li:last-child { border-bottom: 0; }
-.lista li::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 3px; background: var(--a, #fff); box-shadow: 0 0 0 1px rgba(255, 255, 255, .35); }
 @keyframes flutua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
 @keyframes gira { to { transform: rotate(360deg); } }
 .arte .f1 { animation: flutua 5.5s ease-in-out infinite; }
@@ -118,25 +114,19 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 899px) {
   .palco { display: block; padding: 0; }
   .historia { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
-  .slide { grid-template-columns: 1fr; grid-template-areas: "arte" "bloco" "resumo"; column-gap: 0; padding: 0 22px; }
-  .slide.final { grid-template-areas: "bloco" "lista" "lista"; }
-  .slide.final .arte { display: none; }
-  .bloco { display: block; grid-area: bloco; align-self: center; position: relative; z-index: 2; padding-bottom: 26px; }
-  .slide.final .bloco { align-self: end; padding: calc(92px + env(safe-area-inset-top, 0px)) 0 14px; }
+  .slide, .abertura { grid-template-columns: 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: "arte" "bloco" "resumo"; align-content: normal; row-gap: 0; column-gap: 0; padding: 0 22px; }
+  .abertura { grid-template-rows: minmax(0, 33.333dvh) auto 1fr; grid-template-areas: "hero" "bloco" "resumo"; }
+  .abertura .bloco { align-self: start; padding: 14px 0 28px; }   /* o grupo começa na linha de 1/3, compacto */
+  .bloco, .abertura .bloco { align-self: center; padding-bottom: 26px; }
   .ctx { padding: 0 0 14px; }
-  .slide.final .ctx { padding-bottom: 14px; }
-  .titulo { padding-bottom: 0; }
   .slide h1, .slide h2 { font-size: clamp(26px, 7.8vw, 32px); max-width: none; }
-  .arte, .hero { align-self: stretch; padding: calc(92px + env(safe-area-inset-top, 0px)) 0 8px; align-items: flex-end; }
+  .arte, .hero { align-self: stretch; padding: calc(92px + env(safe-area-inset-top, 0px)) 0 8px; align-items: center; }
   .arte svg { width: auto; height: 100%; max-height: 190px; aspect-ratio: 1; }
-  .hero { align-items: flex-end; }
   .resumo { padding-top: 38px; }
-  .abertura .resumo { padding-top: 16px; }
-  .grande { font-size: clamp(88px, 27vw, 112px); text-align: right; }
+  .abertura .resumo { padding-top: 0; }
+  .grande { font-size: clamp(88px, 27vw, 112px); text-align: center; }
   .grande.g3 { font-size: clamp(60px, 18vw, 76px); }
-  .cap { margin-top: 6px; font-size: 13px; text-align: right; }
-  .lista { padding-top: 4px; }
-  .lista li { font-size: 15.5px; padding: 8px 0 8px 14px; }
+  .cap { margin-top: 6px; font-size: 13px; text-align: center; }
   .previa { top: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); }
   .seta { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
   .barras, .topo { padding-left: 18px; padding-right: 18px; }
@@ -211,7 +201,6 @@ window.__DATA = {"fonte": "arquivo"};
   var NOME = "Novidades nos sistemas!";
   var AUTO_MS = 8000;
   var MAX_ITENS = 8;
-  var MAX_CORRECOES = 6;
   var TZ = "America/Sao_Paulo";
   var state = { eds: [], ed: null, idx: 0, slides: [], segs: [], timer: null, pausado: false, segurando: false, aberta: false, abridor: null, ultimoTxt: "", pausaBt: null };
 
@@ -274,7 +263,7 @@ window.__DATA = {"fonte": "arquivo"};
      faixa de cima = arte | faixa do meio = tags e título | linha de 2/3 = botão | faixa de baixo = resumo */
   var ARTIA = { role: "group", "aria-roledescription": "slide" };
   function plural(n, um, varios) { return n === 1 ? um : varios; }
-  function slideAbertura(ed, temUltimo) {
+  function slideAbertura(ed) {
     var jp = janelaPrincipal(ed.itens), c = ed.contagem || {};
     var s = el("article", Object.assign({ class: "slide abertura", "aria-label": "Abertura" }, ARTIA));
     aplicarCor(s, ["#2A2D38", "#08090C"]);
@@ -285,7 +274,7 @@ window.__DATA = {"fonte": "arquivo"};
       if (v > 0) p[3].append(el("div", {}, el("b", { text: String(v) }), el("span", { text: plural(v, p[1], p[2]) })));   // tipo zerado não aparece
     });
     [g1, g2].forEach(function (g) { if (g.childNodes.length) nums.append(g); });       // correções ficam num grupo separado
-    var texto = ed.itens.length ? "Veja as novidades, uma por uma." : temUltimo ? "Veja as principais correções." : "Nenhuma novidade nesta janela.";
+    var texto = ed.itens.length ? "Veja as novidades, uma por uma." : "Nenhuma novidade nesta janela.";
     s.append(el("div", { class: "bloco" },
         el("div", { class: "ctx" }, el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null)),
         el("div", { class: "titulo" }, el("h1", { text: NOME }))),
@@ -308,25 +297,15 @@ window.__DATA = {"fonte": "arquivo"};
       el("div", { class: "acao" }, btn), el("div", { class: "resumo" }, p));
     return s;
   }
-  function slideFinal(lista) {
-    var s = el("article", Object.assign({ class: "slide final", "aria-label": "Principais correções" }, ARTIA));
-    aplicarCor(s, ["#2A2D38", "#08090C"]);
-    var ul = el("ul", { class: "lista" });
-    lista.forEach(function (c) { var li = el("li", {}, el("span", { text: c.titulo })); li.style.setProperty("--a", cor(c.squad)[0]); ul.append(li); });
-    s.append(arteComIcone('<path d="M17 33l10 10 20-21"/>'),
-      el("div", { class: "bloco" }, el("div", { class: "ctx" }, el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: "Correções" }))), el("div", { class: "titulo" }, el("h2", { text: "Principais correções" }))), ul);
-    return s;
-  }
 
   /* ================= história ================= */
   function montar(ed) {
     clearTimeout(state.timer);
     state.ed = ed;
-    var itens = (ed.itens || []).slice(0, MAX_ITENS), corrs = (ed.correcoes || []).slice(0, MAX_CORRECOES);
+    var itens = (ed.itens || []).slice(0, MAX_ITENS);
     ed = Object.assign({}, ed, { itens: itens });
-    state.slides = [slideAbertura(ed, corrs.length > 0)];
+    state.slides = [slideAbertura(ed)];
     itens.forEach(function (it, i) { state.slides.push(slideItem(it, i + 1, itens.length)); });
-    if (corrs.length) state.slides.push(slideFinal(corrs));
     var box = $("#slides"); box.textContent = "";
     state.slides.forEach(function (s) { box.append(s); });
     var barras = $("#barras"); barras.textContent = "";
@@ -467,10 +446,8 @@ window.__DATA = {"fonte": "arquivo"};
     ]).then(function (res) {
       var ed = (res[0] || {}).edicao, fora = (res[1] || {}).itens || [];
       if (!ed) throw new Error("vazio");
-      var corrAntes = (ed.correcoes || []).length;
-      ed = Object.assign({}, ed, { itens: (ed.itens || []).filter(function (i) { return fora.indexOf(i.id) < 0; }), correcoes: (ed.correcoes || []).filter(function (c) { return fora.indexOf(c.id) < 0; }) });
+      ed = Object.assign({}, ed, { itens: (ed.itens || []).filter(function (i) { return fora.indexOf(i.id) < 0; }) });
       var cont = Object.assign({}, ed.contagem || {});
-      cont["Correção"] = Math.max(0, (cont["Correção"] || 0) - (corrAntes - ed.correcoes.length));
       cont.Novo = ed.itens.filter(function (i) { return i.tipo === "Novo"; }).length;
       cont.Melhoria = ed.itens.filter(function (i) { return i.tipo === "Melhoria"; }).length;
       ed.contagem = cont;

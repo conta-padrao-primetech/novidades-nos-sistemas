@@ -44,38 +44,6 @@
     "squad": "Tato",
     "janela": "2026-11-09T21:00:00Z"
    }
-  ],
-  "correcoes": [
-   {
-    "id": "94a4d09782",
-    "titulo": "Ano de fabricação como reserva do ano modelo",
-    "squad": "Arquitetura",
-    "sistema": "SALESFORCE"
-   },
-   {
-    "id": "285eb3274e",
-    "titulo": "Reintegração, grupo de cobrança e CNPJ alfanumérico na adesão",
-    "squad": "Contratação e Cadastro",
-    "sistema": "EVEX7"
-   },
-   {
-    "id": "c87ba0746a",
-    "titulo": "Oficina dos cards escolhida pelo orçamento inicial autorizado",
-    "squad": "Sinistro",
-    "sistema": "EVEX7"
-   },
-   {
-    "id": "8e0970a436",
-    "titulo": "Autorização de orçamento gravada numa única operação",
-    "squad": "Sinistro",
-    "sistema": "EVEX7"
-   },
-   {
-    "id": "92fa0b99ed",
-    "titulo": "Carga única e atualizada da lista de estados",
-    "squad": "Sinistro",
-    "sistema": "EVEX7"
-   }
   ]
  }
 }
