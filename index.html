@@ -39,35 +39,45 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .pausa { margin-left: auto; pointer-events: auto; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .5); background: rgba(0, 0, 0, .2); display: grid; place-items: center; }
 .pausa svg { width: 16px; height: 16px; }
 
-/* ---------- slides (mesmos tamanhos do carrossel da V2) ---------- */
+/* ---------- slides: grade de terços (3 faixas iguais) ---------- */
 .slides { position: absolute; inset: 0; touch-action: none; }
-.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; align-items: center; padding: 100px 84px 52px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; background: linear-gradient(135deg, var(--a, #2A2D38), var(--a2, #08090C)); overflow: hidden; }
+.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: "ctx hero" "titulo hero" "resumo hero"; column-gap: 20px; padding: 0 84px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; background: linear-gradient(135deg, var(--a, #2A2D38), var(--a2, #08090C)); overflow: hidden; }
+.slide.final { grid-template-areas: "ctx ." "lista ." "lista ."; }
 .slide.on { opacity: 1; visibility: visible; z-index: 1; }
-.padrao { position: absolute; inset: 0; opacity: .14; pointer-events: none; }
-.padrao svg { width: 100%; height: 100%; display: block; }
-.conteudo { position: relative; z-index: 2; }
-.pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+.cabeca { display: contents; }
+.ctx { grid-area: ctx; align-self: end; position: relative; z-index: 2; padding-bottom: 16px; }
+.titulo { grid-area: titulo; align-self: center; position: relative; z-index: 2; padding-bottom: 30px; }
+.resumo { grid-area: resumo; align-self: start; position: relative; z-index: 2; padding-top: 40px; }
+.abertura .resumo { padding-top: 16px; }
+.acao { grid-area: resumo; align-self: start; justify-self: start; position: relative; z-index: 3; transform: translateY(-50%); }   /* o centro do botão fica em cima da linha de 2/3 */
+.acao:empty { display: none; }
+.hero { grid-area: hero; align-self: center; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
+.marca-dagua { position: absolute; z-index: 1; pointer-events: none; opacity: .15; right: -50px; top: 50%; width: 360px; transform: translateY(-50%); }
+.marca-dagua svg { width: 100%; height: auto; display: block; overflow: visible; }
+.pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .pil { background: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .32); border-radius: 99px; padding: 4px 12px; font: 600 12.5px/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .02em; }
 .pil.claro { background: #fff; color: #111; border-color: #fff; }
 .pil.sis { background: rgba(0, 0, 0, .3); border-color: rgba(255, 255, 255, .5); font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
-.slide h1, .slide h2 { margin: 0 0 14px; font: 700 clamp(26px, 3.6vw, 42px)/1.08 "Space Grotesk", system-ui, sans-serif; letter-spacing: -.015em; max-width: 24ch; text-wrap: balance; }
-.slide p { text-wrap: balance; margin: 0 0 22px; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.45; max-width: 46ch; opacity: .94; }
+.slide h1, .slide h2 { margin: 0; font: 700 clamp(26px, 3.6vw, 42px)/1.08 "Space Grotesk", system-ui, sans-serif; letter-spacing: -.015em; max-width: 26ch; text-wrap: balance; }
+.slide p { text-wrap: balance; margin: 0; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.45; max-width: 46ch; opacity: .94; }
 .slide p strong { font-weight: 600; }
-.btn-claro { background: #fff; color: #14151A; border: 0; border-radius: 99px; padding: 10px 18px; font-weight: 600; font-size: 14.5px; position: relative; z-index: 3; }
-.btn-claro:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0, 0, 0, .28); }
-.arte { position: relative; z-index: 2; display: grid; place-items: center; pointer-events: none; }
-.arte svg { width: min(100%, 320px); height: auto; overflow: visible; }
-.grande { font: 700 clamp(96px, 13.5vw, 170px)/.85 "Space Grotesk", sans-serif; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 3px rgba(255, 255, 255, .85); text-align: center; white-space: nowrap; }
-.cap { text-align: center; margin-top: 26px; font: 600 clamp(13px, 1.5vw, 17px)/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: rgba(255, 255, 255, .85); }
-.nums { display: flex; gap: 18px; flex-wrap: wrap; margin: 0 0 22px; }
-.nums div { min-width: 86px; }
+.abertura .resumo p { margin-bottom: 14px; }
+.btn-claro { background: #fff; color: #14151A; border: 0; border-radius: 99px; padding: 10px 18px; min-height: 44px; font-weight: 600; font-size: 14.5px; position: relative; z-index: 3; }
+.btn-claro:hover { box-shadow: 0 8px 22px rgba(0, 0, 0, .28); }
+.grande { font: 700 clamp(120px, 22vw, 250px)/.85 "Space Grotesk", sans-serif; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 3px rgba(255, 255, 255, .85); text-align: center; white-space: nowrap; }
+.grande.g3 { font-size: clamp(90px, 14vw, 170px); }
+.cap { text-align: center; margin-top: 22px; font: 600 clamp(13px, 1.5vw, 17px)/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: rgba(255, 255, 255, .85); }
+.nums { display: flex; gap: 0; flex-wrap: wrap; align-items: stretch; }
+.nums .grupo { display: flex; gap: 18px; }
+.nums .grupo + .grupo { margin-left: 24px; padding-left: 24px; border-left: 1px solid rgba(255, 255, 255, .4); }   /* correções separadas de novos e melhorias */
+.nums div div { min-width: 70px; }
 .nums b { display: block; font: 700 38px/1 "Space Grotesk", sans-serif; }
 .nums span { font-size: 13px; opacity: .85; }
-@keyframes flutua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-@keyframes gira { to { transform: rotate(360deg); } }
-.arte .f1 { animation: flutua 5.5s ease-in-out infinite; }
-.arte .f2 { animation: flutua 7s ease-in-out infinite reverse; }
-.arte .rot { transform-origin: 160px 160px; animation: gira 60s linear infinite; }
+.slide.final .ctx h2 { margin-top: 14px; }
+.lista { grid-area: lista; align-self: start; position: relative; z-index: 2; list-style: none; margin: 0; padding: 6px 0 0; max-width: 60ch; }
+.lista li { position: relative; padding: 9px 0 9px 16px; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: 16.5px; line-height: 1.35; }
+.lista li:last-child { border-bottom: 0; }
+.lista li::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 3px; background: var(--a, #fff); box-shadow: 0 0 0 1px rgba(255, 255, 255, .35); }
 
 /* ---------- setas (computador) ---------- */
 .seta { position: absolute; top: 50%; z-index: 7; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .55); background: rgba(0, 0, 0, .24); backdrop-filter: blur(4px); display: grid; place-items: center; }
@@ -99,17 +109,27 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 14px; z-index: 60; opacity: 0; pointer-events: none; transition: opacity .25s; }
 .toast.on { opacity: 1; }
 
-/* ---------- celular: a história ocupa a tela toda ---------- */
+/* ---------- celular: a tela toda, na mesma grade de terços ---------- */
 @media (max-width: 899px) {
   .palco { display: block; padding: 0; }
   .historia { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
-  .slide { grid-template-columns: 1fr; grid-template-rows: 1fr auto; align-content: stretch; gap: 0; padding: calc(84px + env(safe-area-inset-top, 0px)) 22px calc(28px + env(safe-area-inset-bottom, 0px)); }
-  .slide .arte { order: -1; align-self: center; padding-bottom: 10px; }
-  .slide .arte svg { width: min(52vw, 200px); }
-  .slide .conteudo { align-self: end; }
-  .grande { font-size: clamp(88px, 27vw, 112px); }
-  .cap { margin-top: 18px; }
-  .com-previa .slide { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+  .slide { grid-template-columns: 1fr; grid-template-areas: "ctx" "titulo" "resumo"; column-gap: 0; padding: 0 22px; }
+  .slide.final { grid-template-areas: "ctx" "lista" "lista"; }
+  .ctx { padding-top: calc(92px + env(safe-area-inset-top, 0px)); padding-bottom: 14px; }
+  .slide h1, .slide h2 { font-size: clamp(26px, 7.8vw, 32px); max-width: none; }
+  .titulo { padding-bottom: 16px; }
+  .resumo { padding-top: 38px; }
+  .abertura .resumo { padding-top: 16px; }
+  .abertura .cabeca { display: block; grid-area: titulo; align-self: center; position: relative; z-index: 2; }
+  .abertura .cabeca .ctx { padding: 0 0 14px; }
+  .hero { grid-area: ctx; align-self: end; justify-self: start; flex-direction: row; align-items: center; gap: 14px; padding-bottom: 14px; }
+  .grande { font-size: clamp(72px, 22vw, 92px); text-align: left; }
+  .grande.g3 { font-size: clamp(60px, 18vw, 76px); }
+  .cap { margin-top: 0; text-align: left; font-size: 13px; }
+  .marca-dagua { width: 250px; right: -90px; top: calc(33.333% - 125px); transform: none; }
+  .slide.final .marca-dagua { top: calc(33.333% - 125px); }
+  .lista { padding-top: 4px; }
+  .lista li { font-size: 15.5px; padding: 8px 0 8px 14px; }
   .previa { top: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); }
   .seta { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
   .barras, .topo { padding-left: 18px; padding-right: 18px; }
@@ -181,24 +201,10 @@ window.__DATA = {"fonte": "arquivo"};
     brilho: '<path d="M32 10v12M32 42v12M10 32h12M42 32h12M17 17l8 8M39 39l8 8M47 17l-8 8M25 39l-8 8"/>'
   };
 
-  /* ================= padrão de fundo de cada squad ================= */
-  var PADROES = {
-    "sinistro": ['24', '24', '<path d="M-6 6L6 -6M0 24L24 0M18 30L30 18" stroke="#fff" stroke-width="2.4" fill="none"/>'],
-    "comercial": ['22', '22', '<circle cx="11" cy="11" r="2.8" fill="#fff"/>'],
-    "financeiro": ['44', '44', '<circle cx="22" cy="22" r="13" fill="none" stroke="#fff" stroke-width="2.2"/>'],
-    "tato": ['44', '44', '<path d="M0 44A44 44 0 0 1 44 0M0 44A28 28 0 0 1 28 16M0 44A12 12 0 0 1 12 32" fill="none" stroke="#fff" stroke-width="2.2"/>'],
-    "contratacao e cadastro": ['34', '34', '<path d="M0 0H34V34" fill="none" stroke="#fff" stroke-width="1.8"/>'],
-    "sustentacao": ['34', '34', '<path d="M17 9V25M9 17H25" stroke="#fff" stroke-width="2.4" fill="none"/>'],
-    "operacoes e servicos de ti": ['44', '26', '<path d="M0 13Q11 0 22 13T44 13" fill="none" stroke="#fff" stroke-width="2.2"/>'],
-    "arquitetura": ['34', '34', '<rect x="2" y="2" width="13" height="13" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/><rect x="19" y="19" width="13" height="13" rx="2" fill="none" stroke="#fff" stroke-width="2.2"/>'],
-    "app": ['26', '30', '<rect x="5" y="3" width="13" height="22" rx="3.5" fill="none" stroke="#fff" stroke-width="2.2"/>'],
-    "produto": ['34', '34', '<path d="M17 4l3.2 7.4 8 .9-6 5.4 1.7 7.9L17 21.6 10.1 25.6l1.7-7.9-6-5.4 8-.9z" fill="none" stroke="#fff" stroke-width="1.8"/>']
-  };
-  var PADRAO_GENERICO = ['30', '30', '<path d="M15 4l11 20H4z" fill="none" stroke="#fff" stroke-width="2"/>'];
-
   var NOME = "Novidades nos sistemas!";
   var AUTO_MS = 8000;
   var MAX_ITENS = 8;
+  var MAX_CORRECOES = 6;
   var TZ = "America/Sao_Paulo";
   var state = { eds: [], ed: null, idx: 0, slides: [], segs: [], timer: null, pausado: false, segurando: false, aberta: false, abridor: null, ultimoTxt: "", pausaBt: null };
 
@@ -245,56 +251,59 @@ window.__DATA = {"fonte": "arquivo"};
 
   /* ================= arte de cada squad ================= */
   function icone(chave) { return ICONES[chave] || ICONES.brilho; }
-  function arteSvg(chave) {
-    var d = document.createElement("div");
-    d.innerHTML = '<svg viewBox="0 0 320 320" aria-hidden="true"><circle class="rot" cx="160" cy="160" r="150" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2" stroke-dasharray="3 12"/>' +
-      '<circle cx="238" cy="84" r="86" fill="#fff" fill-opacity=".1"/><circle cx="82" cy="250" r="56" fill="#fff" fill-opacity=".08"/>' +
-      '<g class="f2"><circle cx="270" cy="236" r="14" fill="#fff" fill-opacity=".35"/><circle cx="46" cy="96" r="8" fill="#fff" fill-opacity=".4"/></g>' +
-      '<g class="f1"><rect x="78" y="78" width="164" height="164" rx="40" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>' +
-      '<g transform="translate(96 96) scale(2)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' + icone(chave) + "</g></g></svg>";
-    return d.firstChild;
-  }
-  var contaPadrao = 0;
-  function padraoEl(squad) {
-    var p = PADROES[semAcento(squad)] || PADRAO_GENERICO, id = "pd" + (contaPadrao++);
-    var d = el("div", { class: "padrao", "aria-hidden": "true" });
-    d.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg"><defs><pattern id="' + id + '" width="' + p[0] + '" height="' + p[1] + '" patternUnits="userSpaceOnUse">' + p[2] + '</pattern></defs><rect width="100%" height="100%" fill="url(#' + id + ')"/></svg>';
+  function marcaDagua(interno) {
+    var d = el("div", { class: "marca-dagua", "aria-hidden": "true" });
+    d.innerHTML = '<svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + interno + "</svg>";
     return d;
   }
 
-  /* ================= slides ================= */
-  function slideAbertura(ed) {
-    var jp = janelaPrincipal(ed.itens);
-    var s = el("article", { class: "slide", role: "group", "aria-roledescription": "slide", "aria-label": "Abertura" });
+  /* ================= slides =================
+     Todos seguem a grade de terços (computador e celular):
+     faixa de cima = contexto (tags) | faixa do meio = título (conceito principal)
+     linha de 2/3 = botão | faixa de baixo = resumo */
+  var ARTIA = { role: "group", "aria-roledescription": "slide" };
+  function plural(n, um, varios) { return n === 1 ? um : varios; }
+  function slideAbertura(ed, temUltimo) {
+    var jp = janelaPrincipal(ed.itens), c = ed.contagem || {};
+    var s = el("article", Object.assign({ class: "slide abertura", "aria-label": "Abertura" }, ARTIA));
     aplicarCor(s, ["#2A2D38", "#08090C"]);
-    var nums = el("div", { class: "nums" });
-    [["Novo", "novos"], ["Melhoria", "melhorias"], ["Correção", "correções"]].forEach(function (p) { nums.append(el("div", {}, el("b", { text: String((ed.contagem || {})[p[0]] || 0) }), el("span", { text: p[1] }))); });
-    var btn = el("button", { class: "btn-claro", type: "button", text: ed.itens.length ? "Ver as novidades" : "Tudo certo por aqui" });
-    btn.addEventListener("click", function (ev) { ev.stopPropagation(); ir(1); });
-    var total = ed.itens.length;
-    var texto = total ? qtd(total, "novidade", "novidades") + " nesta janela." : "Nenhuma novidade nesta janela.";
+    var total = (c.Novo || 0) + (c.Melhoria || 0) + (c["Correção"] || 0);
+    var nums = el("div", { class: "nums" }), g1 = el("div", { class: "grupo" }), g2 = el("div", { class: "grupo" });
+    [["Novo", "novo", "novos", g1], ["Melhoria", "melhoria", "melhorias", g1], ["Correção", "correção", "correções", g2]].forEach(function (p) {
+      var v = c[p[0]] || 0;
+      if (v > 0) p[3].append(el("div", {}, el("b", { text: String(v) }), el("span", { text: plural(v, p[1], p[2]) })));   // tipo zerado não aparece
+    });
+    [g1, g2].forEach(function (g) { if (g.childNodes.length) nums.append(g); });       // correções ficam num grupo separado
+    var texto = ed.itens.length ? "Veja as novidades, uma por uma." : temUltimo ? "Veja as principais correções." : "Nenhuma novidade nesta janela.";
     if (ed.proxima) texto += " Próxima atualização: " + diaHoraTxt(ed.proxima) + ".";
-    var grande = jp ? partes(jp.iso).day + "/" + partes(jp.iso).month : "";
-    s.append(el("div", { class: "conteudo" },
-        el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null, ed.publicadoEm ? el("span", { class: "pil", text: "Atualizado " + diaHoraTxt(ed.publicadoEm) }) : null),
-        el("h1", { text: NOME }), el("p", { text: texto }), nums, btn),
-      el("div", { class: "arte" }, el("div", { class: "grande", "aria-hidden": "true", text: grande }), jp ? el("div", { class: "cap", text: "janela de " + partes(jp.iso).dia }) : null));
+    s.append(el("div", { class: "cabeca" },
+        el("div", { class: "ctx" }, el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null, ed.publicadoEm ? el("span", { class: "pil", text: "Atualizado " + diaHoraTxt(ed.publicadoEm) }) : null)),
+        el("div", { class: "titulo" }, el("h1", { text: NOME }))),
+      el("div", { class: "resumo" }, el("p", { text: texto }), nums.childNodes.length ? nums : null),
+      el("div", { class: "hero" }, el("div", { class: "grande" + (String(total).length > 2 ? " g3" : ""), "aria-hidden": "true", text: String(total) }), el("div", { class: "cap", text: plural(total, "mudança", "mudanças") })));
     return s;
   }
   function slideItem(it, i, total) {
     var c = cor(it.squad);
-    var s = el("article", { class: "slide", role: "group", "aria-roledescription": "slide", "aria-label": "Novidade " + i + " de " + total });
+    var s = el("article", Object.assign({ class: "slide", "aria-label": "Novidade " + i + " de " + total }, ARTIA));
     aplicarCor(s, c);
     var p = el("p");
     marcado(p, it.chamada);
     var btn = el("button", { class: "btn-claro", type: "button", text: "Ver detalhes" });
     btn.addEventListener("click", function (ev) { ev.stopPropagation(); abrirDetalhes(it, btn); });
-    s.append(padraoEl(it.squad),
-      el("div", { class: "conteudo" },
-        el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: it.squad }), el("span", { class: "pil", text: it.tipo }), el("span", { class: "pil sis", text: it.sistema })),
-        el("h2", { text: it.titulo }), p, btn),
-      el("div", { class: "arte" }, arteSvg(c[2])));
-    s._item = it;
+    s.append(marcaDagua(icone(c[2])),
+      el("div", { class: "ctx" }, el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: it.squad }), el("span", { class: "pil", text: it.tipo }), el("span", { class: "pil sis", text: it.sistema }))),
+      el("div", { class: "titulo" }, el("h2", { text: it.titulo })),
+      el("div", { class: "acao" }, btn), el("div", { class: "resumo" }, p));
+    return s;
+  }
+  function slideFinal(lista) {
+    var s = el("article", Object.assign({ class: "slide final", "aria-label": "Principais correções" }, ARTIA));
+    aplicarCor(s, ["#2A2D38", "#08090C"]);
+    var ul = el("ul", { class: "lista" });
+    lista.forEach(function (c) { var li = el("li", {}, el("span", { text: c.titulo })); li.style.setProperty("--a", cor(c.squad)[0]); ul.append(li); });
+    s.append(marcaDagua('<path d="M17 33l10 10 20-21"/>'),
+      el("div", { class: "ctx" }, el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: "Correções" })), el("h2", { text: "Principais correções" })), ul);
     return s;
   }
 
@@ -302,10 +311,11 @@ window.__DATA = {"fonte": "arquivo"};
   function montar(ed) {
     clearTimeout(state.timer);
     state.ed = ed;
-    var itens = (ed.itens || []).slice(0, MAX_ITENS);
+    var itens = (ed.itens || []).slice(0, MAX_ITENS), corrs = (ed.correcoes || []).slice(0, MAX_CORRECOES);
     ed = Object.assign({}, ed, { itens: itens });
-    state.slides = [slideAbertura(ed)];
+    state.slides = [slideAbertura(ed, corrs.length > 0)];
     itens.forEach(function (it, i) { state.slides.push(slideItem(it, i + 1, itens.length)); });
+    if (corrs.length) state.slides.push(slideFinal(corrs));
     var box = $("#slides"); box.textContent = "";
     state.slides.forEach(function (s) { box.append(s); });
     var barras = $("#barras"); barras.textContent = "";
@@ -446,8 +456,10 @@ window.__DATA = {"fonte": "arquivo"};
     ]).then(function (res) {
       var ed = (res[0] || {}).edicao, fora = (res[1] || {}).itens || [];
       if (!ed) throw new Error("vazio");
-      ed = Object.assign({}, ed, { itens: (ed.itens || []).filter(function (i) { return fora.indexOf(i.id) < 0; }) });
+      var corrAntes = (ed.correcoes || []).length;
+      ed = Object.assign({}, ed, { itens: (ed.itens || []).filter(function (i) { return fora.indexOf(i.id) < 0; }), correcoes: (ed.correcoes || []).filter(function (c) { return fora.indexOf(c.id) < 0; }) });
       var cont = Object.assign({}, ed.contagem || {});
+      cont["Correção"] = Math.max(0, (cont["Correção"] || 0) - (corrAntes - ed.correcoes.length));
       cont.Novo = ed.itens.filter(function (i) { return i.tipo === "Novo"; }).length;
       cont.Melhoria = ed.itens.filter(function (i) { return i.tipo === "Melhoria"; }).length;
       ed.contagem = cont;
