@@ -70,7 +70,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .cap { text-align: center; margin-top: 22px; font: 600 clamp(13px, 1.5vw, 17px)/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: rgba(255, 255, 255, .85); }
 .nums { display: flex; gap: 0; flex-wrap: wrap; align-items: stretch; margin: 0 0 14px; }
 .nums .grupo { display: flex; gap: 18px; }
-.nums .grupo + .grupo { margin-left: 24px; padding-left: 24px; border-left: 1px solid rgba(255, 255, 255, .4); }   /* correções separadas de novos e melhorias */
 .nums div div { min-width: 70px; }
 .nums b { display: block; font: 700 38px/1 "Space Grotesk", sans-serif; }
 .nums span { font-size: 13px; opacity: .85; }
@@ -272,16 +271,16 @@ window.__DATA = {"fonte": "arquivo"};
   var ARTIA = { role: "group", "aria-roledescription": "slide" };
   function plural(n, um, varios) { return n === 1 ? um : varios; }
   function slideAbertura(ed) {
-    var jp = janelaPrincipal(ed.itens), c = ed.contagem || {};
+    var jp = janelaPrincipal(ed.itens), c = { Novo: ed.itens.filter(function (i) { return i.tipo === "Novo"; }).length, Melhoria: ed.itens.filter(function (i) { return i.tipo === "Melhoria"; }).length };
     var s = el("article", Object.assign({ class: "slide abertura", "aria-label": "Abertura" }, ARTIA));
     aplicarCor(s, ["#2A2D38", "#08090C"]);
-    var total = (c.Novo || 0) + (c.Melhoria || 0) + (c["Correção"] || 0);
-    var nums = el("div", { class: "nums" }), g1 = el("div", { class: "grupo" }), g2 = el("div", { class: "grupo" });
-    [["Novo", "novo", "novos", g1], ["Melhoria", "melhoria", "melhorias", g1], ["Correção", "correção", "correções", g2]].forEach(function (p) {
+    var total = c.Novo + c.Melhoria;
+    var nums = el("div", { class: "nums" }), g1 = el("div", { class: "grupo" });
+    [["Novo", "novo", "novos"], ["Melhoria", "melhoria", "melhorias"]].forEach(function (p) {
       var v = c[p[0]] || 0;
-      if (v > 0) p[3].append(el("div", {}, el("b", { text: String(v) }), el("span", { text: plural(v, p[1], p[2]) })));   // tipo zerado não aparece
+      if (v > 0) g1.append(el("div", {}, el("b", { text: String(v) }), el("span", { text: plural(v, p[1], p[2]) })));   // tipo zerado não aparece
     });
-    [g1, g2].forEach(function (g) { if (g.childNodes.length) nums.append(g); });       // correções ficam num grupo separado
+    if (g1.childNodes.length) nums.append(g1);
     var texto = ed.itens.length ? "Veja as novidades e melhorias, uma por uma." : "Nenhuma novidade nesta janela.";
     var lead = ed.resumo ? el("p", { class: "lead", text: ed.resumo }) : null;     // frase-resumo da janela, escrita pela rotina
     s.append(el("div", { class: "bloco" },

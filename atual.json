@@ -1,50 +1,29 @@
 {
  "versao": 3,
  "edicao": {
-  "id": "jan-2026-11-12",
-  "publicadoEm": "2026-11-12T13:00:00Z",
-  "proxima": "2026-11-17T13:00:00Z",
+  "id": "jan-2026-11-16",
+  "publicadoEm": "2026-11-17T13:00:00Z",
+  "proxima": "2026-11-19T13:00:00Z",
   "periodo": {
-   "de": "2026-11-10T13:00:00Z",
-   "ate": "2026-11-12T13:00:00Z"
+   "de": "2026-11-12T13:00:00Z",
+   "ate": "2026-11-17T13:00:00Z"
   },
   "contagem": {
    "Novo": 0,
-   "Melhoria": 3,
-   "Correção": 6
+   "Melhoria": 1
   },
+  "resumo": "Exportação detalhada do Central Connect passa a ter uma aba por formulário na Validação de instrumentos contratuais.",
   "itens": [
    {
-    "id": "441b616e86",
+    "id": "e979f7a27c",
     "tipo": "Melhoria",
-    "titulo": "Placa cancelada no mês marcada nos primeiros boletos pagos",
-    "chamada": "No **extrato v3**, o bloco de primeiros boletos pagos marca a placa cancelada no mês, que não conta para a meta de produção.",
-    "detalhe": "No extrato v3, o bloco de primeiros boletos pagos passa a marcar a placa cancelada no mês. Essa placa não conta para a meta de produção.",
+    "titulo": "Exportação do Central Connect com uma aba por formulário",
+    "chamada": "Na **Validação de instrumentos contratuais** do Comercial, o Exportar detalhado do Central Connect passa a abrir uma aba para cada formulário de abertura.",
+    "detalhe": "Antes, os pedidos de contrato de parceria, aditivo e distrato saíam na planilha sem as respostas do formulário de abertura. Agora cada formulário ganha a própria aba, e o Comercial confere esses dados sem abrir chamado por chamado.",
     "sistema": "EVEX7",
     "squad": "Comercial",
-    "janela": "2026-11-11T20:00:00Z"
-   },
-   {
-    "id": "652954b808",
-    "tipo": "Melhoria",
-    "titulo": "Verificação de MEI para todos os tipos de fornecedor",
-    "chamada": "Na tela de **Fornecedores**, MEI de qualquer tipo passa a ser verificado: nos tipos de sinistro segue bloqueado, nos demais abre uma orientação para confirmar.",
-    "detalhe": "Na tela de Fornecedores, a verificação de MEI passa a valer para qualquer tipo de fornecedor. Nos tipos de sinistro o cadastro segue bloqueado; nos demais, o sistema abre uma orientação para confirmar.",
-    "sistema": "EVEX7",
-    "squad": "Sinistro",
-    "janela": "2026-11-11T03:00:00Z"
-   },
-   {
-    "id": "4e8fdd4e11",
-    "tipo": "Melhoria",
-    "titulo": "Coluna Último acompanhamento no Controle de Solicitações",
-    "chamada": "No **Controle de Solicitações**, a coluna Último acompanhamento mostra o registro mais recente entre a última tentativa de contato e a entrada na situação atual.",
-    "detalhe": "No Controle de Solicitações, uma coluna nova mostra o último acompanhamento de cada solicitação, sem precisar abrir o detalhe.",
-    "sistema": "EVEX7",
-    "squad": "Tato",
-    "janela": "2026-11-09T21:00:00Z"
+    "janela": "2026-11-16T20:00:00Z"
    }
-  ],
-  "resumo": "Mudanças no extrato do consultor, na verificação de MEI e no Controle de Solicitações."
+  ]
  }
 }
