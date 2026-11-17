@@ -9,11 +9,21 @@
    "ate": "2026-11-17T13:00:00Z"
   },
   "contagem": {
-   "Novo": 0,
-   "Melhoria": 1
+   "Novo": 1,
+   "Melhoria": 3
   },
-  "resumo": "Exportação detalhada do Central Connect passa a ter uma aba por formulário na Validação de instrumentos contratuais.",
+  "resumo": "Ressarcimento com deduções e leilão preenchidos pelo Auto TDI, exportação do Central Connect por formulário e região Susep nos planos.",
   "itens": [
+   {
+    "id": "d019ad8b28",
+    "tipo": "Novo",
+    "titulo": "Consulta Auto TDI preenche as deduções do Ressarcimento",
+    "chamada": "No **Ressarcimento**, a consulta ao Auto TDI passa a preencher automaticamente as abas de deduções. O analista continua podendo editar cada linha.",
+    "detalhe": "Antes, o analista preenchia as deduções à mão. Agora a consulta ao Auto TDI preenche as abas DPVAT, IPVA, Licenciamento e Multas, e roda sozinha quando o evento chega à fase de documentos recebidos completos. A reconsulta pede confirmação antes de sobrescrever os dados, e se a consulta falhar o preenchimento manual continua disponível.",
+    "sistema": "EVEX7",
+    "squad": "Sinistro",
+    "janela": "2026-11-16T03:00:00Z"
+   },
    {
     "id": "e979f7a27c",
     "tipo": "Melhoria",
@@ -23,6 +33,26 @@
     "sistema": "EVEX7",
     "squad": "Comercial",
     "janela": "2026-11-16T20:00:00Z"
+   },
+   {
+    "id": "bca6594514",
+    "tipo": "Melhoria",
+    "titulo": "Motor de preços considera a região Susep do veículo",
+    "chamada": "O **motor de preços** passa a considerar a região Susep do município de circulação do veículo no cálculo dos planos.",
+    "detalhe": "O EVEX7 consulta a região Susep do município do veículo e a envia ao motor de preços nas simulações e nas precificações. Se a região não for obtida, a cotação segue normalmente, sem erro para o consultor.",
+    "sistema": "EVEX7",
+    "squad": "Contratação e Cadastro",
+    "janela": "2026-11-09T23:00:00Z"
+   },
+   {
+    "id": "a2162b2cba",
+    "tipo": "Melhoria",
+    "titulo": "Marcação de leilão automática pelo Auto TDI",
+    "chamada": "No **Ressarcimento**, a aba Leilão passa a ser marcada automaticamente a partir do retorno da consulta ao Auto TDI. O analista continua podendo ajustar.",
+    "detalhe": "Antes, o analista verificava à mão se o veículo tinha passado por leilão. Agora a marcação vem do retorno da consulta ao Auto TDI. Quando não há registro, a aba mostra uma mensagem informativa, e se a consulta falhar a marcação existente não muda. Marcar e desmarcar manualmente continua possível.",
+    "sistema": "EVEX7",
+    "squad": "Sinistro",
+    "janela": "2026-11-16T03:00:00Z"
    }
   ]
  }
