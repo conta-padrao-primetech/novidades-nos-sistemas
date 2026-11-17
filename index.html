@@ -130,9 +130,13 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .arte, .hero { align-self: stretch; padding: 0; align-items: center; justify-content: center; }
   .arte svg { width: auto; height: 100%; max-height: 190px; aspect-ratio: 1; }
   .resumo { align-self: center; padding-top: 24px; }
-  .grande { font-size: clamp(88px, 27vw, 112px); text-align: center; }
-  .grande.g3 { font-size: clamp(60px, 18vw, 76px); }
-  .cap { margin-top: 6px; font-size: 13px; text-align: center; }
+  .grande { font-size: clamp(116px, 39vw, 164px); text-align: center; }
+  .grande.g3 { font-size: clamp(84px, 27vw, 116px); }
+  .cap { margin-top: 8px; font-size: 14px; text-align: center; }
+  .slide p { max-width: none; text-wrap: pretty; }   /* o parágrafo ocupa a mesma largura do título */
+  .resumo p { font-size: 17.5px; line-height: 1.5; }
+  .bloco .lead { font-size: 17px; }
+  .slide p.dica { font-size: 15px; }
   .previa { top: auto; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); }
   .seta { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
   .folha { top: auto; bottom: 0; left: 0; transform: none; width: 100%; max-height: 82dvh; border-radius: 22px 22px 0 0; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); animation: sobe .25s ease-out; }
@@ -142,11 +146,14 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .slide, .slide.abertura { padding-top: calc(100px + env(safe-area-inset-top, 0px)); padding-bottom: calc(22px + env(safe-area-inset-bottom, 0px)); }
   .slide h1, .slide h2 { font-size: clamp(24px, 7.2vw, 28px); }
   .bloco .lead { font-size: 15px; margin-top: 8px; }
-  .resumo p { font-size: 15px; }
+  .resumo p { font-size: 15.5px; }
+  .bloco .lead { font-size: 15px; }
+  .slide p.dica { font-size: 14px; }
   .nums b { font-size: 30px; }
   .nums { margin-bottom: 10px; }
-  .grande { font-size: clamp(64px, 20vw, 78px); }
-  .cap { margin-top: 2px; }
+  .grande { font-size: clamp(88px, 29vw, 108px); }
+  .grande.g3 { font-size: clamp(66px, 21vw, 82px); }
+  .cap { margin-top: 2px; font-size: 13px; }
   .abertura .bloco { padding-bottom: 18px; }
 }
 @keyframes sobe { from { transform: translateY(40px); opacity: .4; } to { transform: none; opacity: 1; } }
