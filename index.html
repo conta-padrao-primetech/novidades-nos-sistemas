@@ -52,7 +52,6 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .arte { grid-area: arte; }
 .hero { grid-area: hero; }
 /* abertura: tudo num grupo só, centralizado, com espaços regulares */
-.abertura .conj { display: contents; }
 .abertura { grid-template-rows: auto auto; grid-template-areas: "bloco hero" "resumo hero"; align-content: center; row-gap: 30px; padding-top: 96px; padding-bottom: 24px; }   /* o grupo centraliza só na área abaixo do cabeçalho */
 .abertura .bloco { padding-bottom: 0; }
 .abertura .resumo { padding-top: 0; }
@@ -113,48 +112,30 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--fg); color: #fff; padding: 10px 18px; border-radius: 99px; font-size: 14px; z-index: 60; opacity: 0; pointer-events: none; transition: opacity .25s; }
 .toast.on { opacity: 1; }
 
-/* ---------- celular: a tela toda; os terços valem para a área útil, abaixo do cabeçalho ---------- */
+/* ---------- celular: a tela toda, na mesma grade de terços ---------- */
 @media (max-width: 899px) {
   .palco { display: block; padding: 0; }
   .historia { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
-  .barras { padding: calc(26px + env(safe-area-inset-top, 0px)) 18px 0; }
-  .topo { top: calc(42px + env(safe-area-inset-top, 0px)); padding: 0 18px; }
-  .slide, .slide.abertura { grid-template-columns: 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: "arte" "bloco" "resumo"; align-content: normal; row-gap: 0; column-gap: 0; padding: calc(108px + env(safe-area-inset-top, 0px)) 22px calc(30px + env(safe-area-inset-bottom, 0px)); }
-  .slide.abertura { grid-template-rows: minmax(0, 1fr) minmax(0, 2fr); grid-template-areas: "hero" "grupo"; }
-  .abertura .conj { display: block; grid-area: grupo; align-self: center; position: relative; z-index: 2; }
-  .abertura .bloco { padding-bottom: 26px; }
-  .abertura .resumo { padding-top: 0; }
-  .bloco { align-self: center; padding-bottom: 36px; }   /* 22px da metade do botão + 14px de respiro */
+  .slide, .abertura { grid-template-columns: 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: "arte" "bloco" "resumo"; align-content: normal; row-gap: 0; column-gap: 0; padding: 0 22px; }
+  .abertura { grid-template-rows: minmax(0, 33.333dvh) auto 1fr; grid-template-areas: "hero" "bloco" "resumo"; }
+  .abertura .bloco { align-self: start; padding: 14px 0 28px; }   /* o grupo começa na linha de 1/3, compacto */
+  .bloco, .abertura .bloco { align-self: center; padding-bottom: 26px; }
   .ctx { padding: 0 0 14px; }
   .slide h1, .slide h2 { font-size: clamp(26px, 7.8vw, 32px); max-width: none; }
-  .arte, .hero { align-self: stretch; padding: 0; align-items: center; justify-content: center; }
+  .arte, .hero { align-self: stretch; padding: calc(92px + env(safe-area-inset-top, 0px)) 0 8px; align-items: center; }
   .arte svg { width: auto; height: 100%; max-height: 190px; aspect-ratio: 1; }
-  .resumo { align-self: center; padding-top: 24px; }
-  .grande { font-size: clamp(116px, 39vw, 164px); text-align: center; }
-  .grande.g3 { font-size: clamp(84px, 27vw, 116px); }
-  .cap { margin-top: 8px; font-size: 14px; text-align: center; }
-  .slide p { max-width: none; text-wrap: pretty; }   /* o parágrafo ocupa a mesma largura do título */
-  .resumo p { font-size: 17.5px; line-height: 1.5; }
-  .bloco .lead { font-size: 17px; }
-  .slide p.dica { font-size: 15px; }
-  .previa { top: auto; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); }
+  .resumo { padding-top: 38px; }
+  .abertura .resumo { padding-top: 0; }
+  .grande { font-size: clamp(88px, 27vw, 112px); text-align: center; }
+  .grande.g3 { font-size: clamp(60px, 18vw, 76px); }
+  .cap { margin-top: 6px; font-size: 13px; text-align: center; }
+  .previa { top: auto; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); flex-wrap: nowrap; overflow-x: auto; border-radius: 99px; padding: 4px 8px; max-width: calc(100% - 16px); }
+  .previa .rt { display: none; }
+  .previa button { padding: 4px 9px; font-size: 11.5px; }
+  .abertura { padding-top: 0; padding-bottom: 0; }
   .seta { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+  .barras, .topo { padding-left: 18px; padding-right: 18px; }
   .folha { top: auto; bottom: 0; left: 0; transform: none; width: 100%; max-height: 82dvh; border-radius: 22px 22px 0 0; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); animation: sobe .25s ease-out; }
-}
-/* celular de tela baixa (iPhone com as barras do Safari, aparelhos pequenos): tudo um pouco menor para caber */
-@media (max-width: 899px) and (max-height: 700px) {
-  .slide, .slide.abertura { padding-top: calc(100px + env(safe-area-inset-top, 0px)); padding-bottom: calc(22px + env(safe-area-inset-bottom, 0px)); }
-  .slide h1, .slide h2 { font-size: clamp(24px, 7.2vw, 28px); }
-  .bloco .lead { font-size: 15px; margin-top: 8px; }
-  .resumo p { font-size: 15.5px; }
-  .bloco .lead { font-size: 15px; }
-  .slide p.dica { font-size: 14px; }
-  .nums b { font-size: 30px; }
-  .nums { margin-bottom: 10px; }
-  .grande { font-size: clamp(88px, 29vw, 108px); }
-  .grande.g3 { font-size: clamp(66px, 21vw, 82px); }
-  .cap { margin-top: 2px; font-size: 13px; }
-  .abertura .bloco { padding-bottom: 18px; }
 }
 @keyframes sobe { from { transform: translateY(40px); opacity: .4; } to { transform: none; opacity: 1; } }
 @media (min-width: 900px) and (max-height: 640px) { .slide { padding-top: 96px; padding-bottom: 40px; } }
@@ -247,7 +228,7 @@ window.__DATA = {"fonte": "arquivo"};
   function semAuto() { try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } }
   function qtd(n, um, varios) { return n + " " + (n === 1 ? um : varios); }
   function cor(squad) { return AREAS[semAcento(squad)] || PADRAO; }
-  function aplicarCor(no, a) { no.style.setProperty("--a", a[0]); no.style.setProperty("--a2", a[1]); no._cor = a[0]; }
+  function aplicarCor(no, a) { no.style.setProperty("--a", a[0]); no.style.setProperty("--a2", a[1]); }
   function marcado(no, txt) {
     no.textContent = "";
     String(txt || "").split("**").forEach(function (p, i) { if (p) no.append(i % 2 ? el("strong", { text: p }) : document.createTextNode(p)); });
@@ -303,11 +284,10 @@ window.__DATA = {"fonte": "arquivo"};
     [g1, g2].forEach(function (g) { if (g.childNodes.length) nums.append(g); });       // correções ficam num grupo separado
     var texto = ed.itens.length ? "Veja as novidades e melhorias, uma por uma." : "Nenhuma novidade nesta janela.";
     var lead = ed.resumo ? el("p", { class: "lead", text: ed.resumo }) : null;     // frase-resumo da janela, escrita pela rotina
-    s.append(el("div", { class: "conj" },
-        el("div", { class: "bloco" },
-          el("div", { class: "ctx" }, el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null)),
-          el("div", { class: "titulo" }, el("h1", { text: NOME })), lead),
-        el("div", { class: "resumo" }, nums.childNodes.length ? nums : null, el("p", { class: lead ? "dica" : "", text: texto }))),      // contagens e, embaixo, o texto
+    s.append(el("div", { class: "bloco" },
+        el("div", { class: "ctx" }, el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null)),
+        el("div", { class: "titulo" }, el("h1", { text: NOME })), lead),
+      el("div", { class: "resumo" }, nums.childNodes.length ? nums : null, el("p", { class: lead ? "dica" : "", text: texto })),      // contagens e, embaixo, o texto
       el("div", { class: "hero" }, el("div", { class: "grande" + (String(total).length > 2 ? " g3" : ""), "aria-hidden": "true", text: String(total) }), el("div", { class: "cap", text: plural(total, "mudança", "mudanças") })));
     return s;
   }
@@ -361,20 +341,12 @@ window.__DATA = {"fonte": "arquivo"};
       s.setAttribute("aria-hidden", on ? "false" : "true");
       s.querySelectorAll("button").forEach(function (b) { b.tabIndex = on ? 0 : -1; });
     });
-    pintarTopo(state.slides[state.idx] && state.slides[state.idx]._cor);
     state.segs.forEach(function (g, i) {
       g.classList.remove("feito", "atual");
       if (i < state.idx) g.classList.add("feito");
       if (i === state.idx) { void g.offsetWidth; g.style.setProperty("--dur", AUTO_MS + "ms"); g.classList.add("atual"); }
     });
     agendar();
-  }
-  function pintarTopo(cor) {                 // no celular, a faixa do relógio fica da cor do slide
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (!meta) { meta = document.createElement("meta"); meta.setAttribute("name", "theme-color"); document.head.append(meta); }
-    var celular = window.innerWidth < 900;
-    if (cor && celular) { meta.setAttribute("content", cor); document.documentElement.style.backgroundColor = cor; }
-    else { meta.setAttribute("content", "#F2F3F6"); document.documentElement.style.backgroundColor = ""; }
   }
   function ir(i) {
     var n = state.slides.length;
