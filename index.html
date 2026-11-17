@@ -41,19 +41,21 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- slides: grade de terços (3 faixas iguais) ---------- */
 .slides { position: absolute; inset: 0; touch-action: none; }
-.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: "ctx hero" "titulo hero" "resumo hero"; column-gap: 20px; padding: 0 84px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; background: linear-gradient(135deg, var(--a, #2A2D38), var(--a2, #08090C)); overflow: hidden; }
-.slide.final { grid-template-areas: "ctx ." "lista ." "lista ."; }
+.slide { position: absolute; inset: 0; display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); grid-template-areas: "ctx arte" "titulo arte" "resumo arte"; column-gap: 20px; padding: 0 84px; opacity: 0; visibility: hidden; transition: opacity .45s ease, visibility .45s; background: linear-gradient(135deg, var(--a, #2A2D38), var(--a2, #08090C)); overflow: hidden; }
+.slide.final { grid-template-areas: "bloco arte" "lista arte" "lista arte"; }
 .slide.on { opacity: 1; visibility: visible; z-index: 1; }
-.cabeca { display: contents; }
+.bloco { display: contents; }
+.slide.final .bloco { display: block; grid-area: bloco; align-self: end; position: relative; z-index: 2; padding-bottom: 14px; }
 .ctx { grid-area: ctx; align-self: end; position: relative; z-index: 2; padding-bottom: 16px; }
+.slide.final .ctx { padding-bottom: 14px; }
 .titulo { grid-area: titulo; align-self: center; position: relative; z-index: 2; padding-bottom: 30px; }
+.slide.final .titulo { padding-bottom: 0; }
 .resumo { grid-area: resumo; align-self: start; position: relative; z-index: 2; padding-top: 40px; }
 .abertura .resumo { padding-top: 16px; }
 .acao { grid-area: resumo; align-self: start; justify-self: start; position: relative; z-index: 3; transform: translateY(-50%); }   /* o centro do botão fica em cima da linha de 2/3 */
 .acao:empty { display: none; }
-.hero { grid-area: hero; align-self: center; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; pointer-events: none; }
-.marca-dagua { position: absolute; z-index: 1; pointer-events: none; opacity: .15; right: -50px; top: 50%; width: 360px; transform: translateY(-50%); }
-.marca-dagua svg { width: 100%; height: auto; display: block; overflow: visible; }
+.arte, .hero { grid-area: arte; align-self: center; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; min-height: 0; }
+.arte svg { width: min(100%, 320px); height: auto; overflow: visible; }
 .pilulas { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .pil { background: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .32); border-radius: 99px; padding: 4px 12px; font: 600 12.5px/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .02em; }
 .pil.claro { background: #fff; color: #111; border-color: #fff; }
@@ -61,23 +63,26 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .slide h1, .slide h2 { margin: 0; font: 700 clamp(26px, 3.6vw, 42px)/1.08 "Space Grotesk", system-ui, sans-serif; letter-spacing: -.015em; max-width: 26ch; text-wrap: balance; }
 .slide p { text-wrap: balance; margin: 0; font-size: clamp(16px, 1.6vw, 19px); line-height: 1.45; max-width: 46ch; opacity: .94; }
 .slide p strong { font-weight: 600; }
-.abertura .resumo p { margin-bottom: 14px; }
 .btn-claro { background: #fff; color: #14151A; border: 0; border-radius: 99px; padding: 10px 18px; min-height: 44px; font-weight: 600; font-size: 14.5px; position: relative; z-index: 3; }
 .btn-claro:hover { box-shadow: 0 8px 22px rgba(0, 0, 0, .28); }
 .grande { font: 700 clamp(120px, 22vw, 250px)/.85 "Space Grotesk", sans-serif; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 3px rgba(255, 255, 255, .85); text-align: center; white-space: nowrap; }
 .grande.g3 { font-size: clamp(90px, 14vw, 170px); }
 .cap { text-align: center; margin-top: 22px; font: 600 clamp(13px, 1.5vw, 17px)/1.2 "IBM Plex Sans", sans-serif; letter-spacing: .22em; text-transform: uppercase; color: rgba(255, 255, 255, .85); }
-.nums { display: flex; gap: 0; flex-wrap: wrap; align-items: stretch; }
+.nums { display: flex; gap: 0; flex-wrap: wrap; align-items: stretch; margin: 0 0 14px; }
 .nums .grupo { display: flex; gap: 18px; }
 .nums .grupo + .grupo { margin-left: 24px; padding-left: 24px; border-left: 1px solid rgba(255, 255, 255, .4); }   /* correções separadas de novos e melhorias */
 .nums div div { min-width: 70px; }
 .nums b { display: block; font: 700 38px/1 "Space Grotesk", sans-serif; }
 .nums span { font-size: 13px; opacity: .85; }
-.slide.final .ctx h2 { margin-top: 14px; }
 .lista { grid-area: lista; align-self: start; position: relative; z-index: 2; list-style: none; margin: 0; padding: 6px 0 0; max-width: 60ch; }
 .lista li { position: relative; padding: 9px 0 9px 16px; border-bottom: 1px solid rgba(255, 255, 255, .14); font-size: 16.5px; line-height: 1.35; }
 .lista li:last-child { border-bottom: 0; }
 .lista li::before { content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 3px; background: var(--a, #fff); box-shadow: 0 0 0 1px rgba(255, 255, 255, .35); }
+@keyframes flutua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes gira { to { transform: rotate(360deg); } }
+.arte .f1 { animation: flutua 5.5s ease-in-out infinite; }
+.arte .f2 { animation: flutua 7s ease-in-out infinite reverse; }
+.arte .rot { transform-origin: 160px 160px; animation: gira 60s linear infinite; }
 
 /* ---------- setas (computador) ---------- */
 .seta { position: absolute; top: 50%; z-index: 7; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .55); background: rgba(0, 0, 0, .24); backdrop-filter: blur(4px); display: grid; place-items: center; }
@@ -113,21 +118,23 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (max-width: 899px) {
   .palco { display: block; padding: 0; }
   .historia { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
-  .slide { grid-template-columns: 1fr; grid-template-areas: "ctx" "titulo" "resumo"; column-gap: 0; padding: 0 22px; }
-  .slide.final { grid-template-areas: "ctx" "lista" "lista"; }
-  .ctx { padding-top: calc(92px + env(safe-area-inset-top, 0px)); padding-bottom: 14px; }
+  .slide { grid-template-columns: 1fr; grid-template-areas: "arte" "bloco" "resumo"; column-gap: 0; padding: 0 22px; }
+  .slide.final { grid-template-areas: "bloco" "lista" "lista"; }
+  .slide.final .arte { display: none; }
+  .bloco { display: block; grid-area: bloco; align-self: center; position: relative; z-index: 2; padding-bottom: 26px; }
+  .slide.final .bloco { align-self: end; padding: calc(92px + env(safe-area-inset-top, 0px)) 0 14px; }
+  .ctx { padding: 0 0 14px; }
+  .slide.final .ctx { padding-bottom: 14px; }
+  .titulo { padding-bottom: 0; }
   .slide h1, .slide h2 { font-size: clamp(26px, 7.8vw, 32px); max-width: none; }
-  .titulo { padding-bottom: 16px; }
+  .arte, .hero { align-self: stretch; padding: calc(92px + env(safe-area-inset-top, 0px)) 0 8px; align-items: flex-end; }
+  .arte svg { width: auto; height: 100%; max-height: 190px; aspect-ratio: 1; }
+  .hero { align-items: flex-end; }
   .resumo { padding-top: 38px; }
   .abertura .resumo { padding-top: 16px; }
-  .abertura .cabeca { display: block; grid-area: titulo; align-self: center; position: relative; z-index: 2; }
-  .abertura .cabeca .ctx { padding: 0 0 14px; }
-  .hero { grid-area: ctx; align-self: end; justify-self: start; flex-direction: row; align-items: center; gap: 14px; padding-bottom: 14px; }
-  .grande { font-size: clamp(72px, 22vw, 92px); text-align: left; }
+  .grande { font-size: clamp(88px, 27vw, 112px); text-align: right; }
   .grande.g3 { font-size: clamp(60px, 18vw, 76px); }
-  .cap { margin-top: 0; text-align: left; font-size: 13px; }
-  .marca-dagua { width: 250px; right: -90px; top: calc(33.333% - 125px); transform: none; }
-  .slide.final .marca-dagua { top: calc(33.333% - 125px); }
+  .cap { margin-top: 6px; font-size: 13px; text-align: right; }
   .lista { padding-top: 4px; }
   .lista li { font-size: 15.5px; padding: 8px 0 8px 14px; }
   .previa { top: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); }
@@ -251,16 +258,20 @@ window.__DATA = {"fonte": "arquivo"};
 
   /* ================= arte de cada squad ================= */
   function icone(chave) { return ICONES[chave] || ICONES.brilho; }
-  function marcaDagua(interno) {
-    var d = el("div", { class: "marca-dagua", "aria-hidden": "true" });
-    d.innerHTML = '<svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + interno + "</svg>";
-    return d;
+  function arteSvg(chave) { return arteComIcone(icone(chave)); }
+  function arteComIcone(interno) {
+    var d = document.createElement("div");
+    d.innerHTML = '<svg viewBox="0 0 320 320" aria-hidden="true"><circle class="rot" cx="160" cy="160" r="150" fill="none" stroke="#fff" stroke-opacity=".2" stroke-width="2" stroke-dasharray="3 12"/>' +
+      '<circle cx="238" cy="84" r="86" fill="#fff" fill-opacity=".1"/><circle cx="82" cy="250" r="56" fill="#fff" fill-opacity=".08"/>' +
+      '<g class="f2"><circle cx="270" cy="236" r="14" fill="#fff" fill-opacity=".35"/><circle cx="46" cy="96" r="8" fill="#fff" fill-opacity=".4"/></g>' +
+      '<g class="f1"><rect x="78" y="78" width="164" height="164" rx="40" fill="#fff" fill-opacity=".16" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>' +
+      '<g transform="translate(96 96) scale(2)" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">' + interno + "</g></g></svg>";
+    return el("div", { class: "arte", "aria-hidden": "true" }, d.firstChild);
   }
 
   /* ================= slides =================
      Todos seguem a grade de terços (computador e celular):
-     faixa de cima = contexto (tags) | faixa do meio = título (conceito principal)
-     linha de 2/3 = botão | faixa de baixo = resumo */
+     faixa de cima = arte | faixa do meio = tags e título | linha de 2/3 = botão | faixa de baixo = resumo */
   var ARTIA = { role: "group", "aria-roledescription": "slide" };
   function plural(n, um, varios) { return n === 1 ? um : varios; }
   function slideAbertura(ed, temUltimo) {
@@ -275,11 +286,10 @@ window.__DATA = {"fonte": "arquivo"};
     });
     [g1, g2].forEach(function (g) { if (g.childNodes.length) nums.append(g); });       // correções ficam num grupo separado
     var texto = ed.itens.length ? "Veja as novidades, uma por uma." : temUltimo ? "Veja as principais correções." : "Nenhuma novidade nesta janela.";
-    if (ed.proxima) texto += " Próxima atualização: " + diaHoraTxt(ed.proxima) + ".";
-    s.append(el("div", { class: "cabeca" },
-        el("div", { class: "ctx" }, el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null, ed.publicadoEm ? el("span", { class: "pil", text: "Atualizado " + diaHoraTxt(ed.publicadoEm) }) : null)),
+    s.append(el("div", { class: "bloco" },
+        el("div", { class: "ctx" }, el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null)),
         el("div", { class: "titulo" }, el("h1", { text: NOME }))),
-      el("div", { class: "resumo" }, el("p", { text: texto }), nums.childNodes.length ? nums : null),
+      el("div", { class: "resumo" }, nums.childNodes.length ? nums : null, el("p", { text: texto })),      // as contagens ficam em cima do texto
       el("div", { class: "hero" }, el("div", { class: "grande" + (String(total).length > 2 ? " g3" : ""), "aria-hidden": "true", text: String(total) }), el("div", { class: "cap", text: plural(total, "mudança", "mudanças") })));
     return s;
   }
@@ -291,9 +301,10 @@ window.__DATA = {"fonte": "arquivo"};
     marcado(p, it.chamada);
     var btn = el("button", { class: "btn-claro", type: "button", text: "Ver detalhes" });
     btn.addEventListener("click", function (ev) { ev.stopPropagation(); abrirDetalhes(it, btn); });
-    s.append(marcaDagua(icone(c[2])),
-      el("div", { class: "ctx" }, el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: it.squad }), el("span", { class: "pil", text: it.tipo }), el("span", { class: "pil sis", text: it.sistema }))),
-      el("div", { class: "titulo" }, el("h2", { text: it.titulo })),
+    s.append(arteSvg(c[2]),
+      el("div", { class: "bloco" },
+        el("div", { class: "ctx" }, el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: it.squad }), el("span", { class: "pil", text: it.tipo }), el("span", { class: "pil sis", text: it.sistema }))),
+        el("div", { class: "titulo" }, el("h2", { text: it.titulo }))),
       el("div", { class: "acao" }, btn), el("div", { class: "resumo" }, p));
     return s;
   }
@@ -302,8 +313,8 @@ window.__DATA = {"fonte": "arquivo"};
     aplicarCor(s, ["#2A2D38", "#08090C"]);
     var ul = el("ul", { class: "lista" });
     lista.forEach(function (c) { var li = el("li", {}, el("span", { text: c.titulo })); li.style.setProperty("--a", cor(c.squad)[0]); ul.append(li); });
-    s.append(marcaDagua('<path d="M17 33l10 10 20-21"/>'),
-      el("div", { class: "ctx" }, el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: "Correções" })), el("h2", { text: "Principais correções" })), ul);
+    s.append(arteComIcone('<path d="M17 33l10 10 20-21"/>'),
+      el("div", { class: "bloco" }, el("div", { class: "ctx" }, el("div", { class: "pilulas" }, el("span", { class: "pil claro", text: "Correções" }))), el("div", { class: "titulo" }, el("h2", { text: "Principais correções" }))), ul);
     return s;
   }
 
