@@ -52,7 +52,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .arte { grid-area: arte; }
 .hero { grid-area: hero; }
 /* abertura: tudo num grupo só, centralizado, com espaços regulares */
-.abertura { grid-template-rows: auto auto; grid-template-areas: "bloco hero" "resumo hero"; align-content: center; row-gap: 30px; }
+.abertura { grid-template-rows: auto auto; grid-template-areas: "bloco hero" "resumo hero"; align-content: center; row-gap: 30px; padding-top: 96px; padding-bottom: 24px; }   /* o grupo centraliza só na área abaixo do cabeçalho */
 .abertura .bloco { padding-bottom: 0; }
 .abertura .resumo { padding-top: 0; }
 .arte svg { width: min(100%, 320px); height: auto; overflow: visible; }
@@ -74,6 +74,8 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .nums div div { min-width: 70px; }
 .nums b { display: block; font: 700 38px/1 "Space Grotesk", sans-serif; }
 .nums span { font-size: 13px; opacity: .85; }
+.bloco .lead { margin-top: 12px; }
+.slide p.dica { font-size: 15px; opacity: .8; }
 @keyframes flutua { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
 @keyframes gira { to { transform: rotate(360deg); } }
 .arte .f1 { animation: flutua 5.5s ease-in-out infinite; }
@@ -127,7 +129,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .grande { font-size: clamp(88px, 27vw, 112px); text-align: center; }
   .grande.g3 { font-size: clamp(60px, 18vw, 76px); }
   .cap { margin-top: 6px; font-size: 13px; text-align: center; }
-  .previa { top: auto; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); }
+  .previa { top: auto; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); left: 50%; transform: translateX(-50%); flex-wrap: nowrap; overflow-x: auto; border-radius: 99px; padding: 4px 8px; max-width: calc(100% - 16px); }
+  .previa .rt { display: none; }
+  .previa button { padding: 4px 9px; font-size: 11.5px; }
+  .abertura { padding-top: 0; padding-bottom: 0; }
   .seta { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
   .barras, .topo { padding-left: 18px; padding-right: 18px; }
   .folha { top: auto; bottom: 0; left: 0; transform: none; width: 100%; max-height: 82dvh; border-radius: 22px 22px 0 0; padding-bottom: calc(26px + env(safe-area-inset-bottom, 0px)); animation: sobe .25s ease-out; }
@@ -137,7 +142,10 @@ button { font: inherit; color: inherit; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { .arte .f1, .arte .f2, .arte .rot { animation: none; } .slide { transition: none; } .folha { animation: none; } }
 
 .previa button { white-space: nowrap; }
-.previa { white-space: nowrap; }
+.previa { flex-wrap: wrap; justify-content: center; border-radius: 18px; max-width: calc(100% - 20px); row-gap: 6px; padding: 6px 10px; }
+
+@media (max-width: 899px) { .previa { flex-wrap: nowrap; width: max-content; border-radius: 99px; padding: 4px 8px; } }
+.previa { width: max-content; }
 
 </style>
 </head>
@@ -274,11 +282,12 @@ window.__DATA = {"fonte": "arquivo"};
       if (v > 0) p[3].append(el("div", {}, el("b", { text: String(v) }), el("span", { text: plural(v, p[1], p[2]) })));   // tipo zerado não aparece
     });
     [g1, g2].forEach(function (g) { if (g.childNodes.length) nums.append(g); });       // correções ficam num grupo separado
-    var texto = ed.itens.length ? "Veja as novidades, uma por uma." : "Nenhuma novidade nesta janela.";
+    var texto = ed.itens.length ? "Veja as novidades e melhorias, uma por uma." : "Nenhuma novidade nesta janela.";
+    var lead = ed.resumo ? el("p", { class: "lead", text: ed.resumo }) : null;     // frase-resumo da janela, escrita pela rotina
     s.append(el("div", { class: "bloco" },
         el("div", { class: "ctx" }, el("div", { class: "pilulas" }, jp ? el("span", { class: "pil claro", text: "Janela de " + diaTxt(jp.iso) }) : null)),
-        el("div", { class: "titulo" }, el("h1", { text: NOME }))),
-      el("div", { class: "resumo" }, nums.childNodes.length ? nums : null, el("p", { text: texto })),      // as contagens ficam em cima do texto
+        el("div", { class: "titulo" }, el("h1", { text: NOME })), lead),
+      el("div", { class: "resumo" }, nums.childNodes.length ? nums : null, el("p", { class: lead ? "dica" : "", text: texto })),      // contagens e, embaixo, o texto
       el("div", { class: "hero" }, el("div", { class: "grande" + (String(total).length > 2 ? " g3" : ""), "aria-hidden": "true", text: String(total) }), el("div", { class: "cap", text: plural(total, "mudança", "mudanças") })));
     return s;
   }
@@ -463,7 +472,7 @@ window.__DATA = {"fonte": "arquivo"};
       if (eds.length > 1) {
         barra.hidden = false;
         document.body.classList.add("com-previa");
-        barra.append("Prévia:");
+        barra.append(el("span", { class: "rt", text: "Prévia:" }));
         eds.forEach(function (e, i) {
           var b = el("button", { type: "button", "aria-pressed": String(i === 0), text: e.previa || e.id });
           b.addEventListener("click", function () { [].forEach.call(barra.querySelectorAll("button"), function (x) { x.setAttribute("aria-pressed", "false"); }); b.setAttribute("aria-pressed", "true"); state.ultimoTxt = ""; state.ed = null; montar(e); });
